@@ -20,11 +20,12 @@ const VISIBLE_CARDS = 3;
 const LONG_REVIEW_CHARS = 140;
 
 function TestimonialCard({ item }: { item: TestimonialItem }) {
+  const [isExpanded, setIsExpanded] = useState(false);
   const isLongReview = item.quote.trim().length > LONG_REVIEW_CHARS;
 
   return (
     <article
-      className="group relative flex w-full max-w-90 flex-col overflow-hidden bg-white shadow-lg rounded-md"
+      className="group relative flex w-full max-w-90 flex-col overflow-hidden rounded-md bg-white shadow-lg"
       tabIndex={0}
     >
       <div className="relative aspect-3/2 bg-[#f0f0f0]">
@@ -39,9 +40,22 @@ function TestimonialCard({ item }: { item: TestimonialItem }) {
 
       <div className="flex flex-1 flex-col bg-[#3d2a24] px-4 py-4">
         <StarRating rating={item.rating} />
-        <p className="mt-2.5 line-clamp-3 text-sm leading-relaxed text-white">
+        <p
+          className={`mt-2.5 text-sm leading-relaxed text-white ${
+            isExpanded ? "" : "line-clamp-3"
+          }`}
+        >
           {item.quote}
         </p>
+        {isLongReview ? (
+          <button
+            type="button"
+            onClick={() => setIsExpanded((open) => !open)}
+            className="mt-2 self-start text-xs tracking-wide text-white/80 underline underline-offset-2 md:hidden"
+          >
+            {isExpanded ? "Show less" : "Read more"}
+          </button>
+        ) : null}
         <p className="mt-3 font-serif text-base font-semibold text-white">
           {item.author}
         </p>
@@ -49,7 +63,7 @@ function TestimonialCard({ item }: { item: TestimonialItem }) {
       </div>
 
       <div
-        className="absolute inset-0 z-10 flex flex-col px-4 py-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-within:opacity-100"
+        className="absolute inset-0 z-10 hidden flex-col px-4 py-4 opacity-0 transition-opacity duration-300 md:flex md:group-hover:opacity-100 md:group-focus-within:opacity-100"
         style={{
           background:
             "linear-gradient(180deg, #8f5a62 0%, #5b3b40 45%, #28191c 100%)",
@@ -133,7 +147,7 @@ export default function Testimonials({
                   type="button"
                   onClick={goToPrevious}
                   aria-label="Previous testimonials"
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-rose-light/80 text-foreground shadow-md transition-transform hover:scale-105 md:h-10 md:w-10"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-rose-light/80 text-foreground shadow-md transition-transform hover:scale-105 md:h-10 md:w-10"
                 >
                   <FiChevronLeft className="h-5 w-5 text-white" />
                 </button>
@@ -153,7 +167,7 @@ export default function Testimonials({
                   type="button"
                   onClick={goToNext}
                   aria-label="Next testimonials"
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-rose-light/80 text-foreground shadow-md transition-transform hover:scale-105 md:h-10 md:w-10"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-rose-light/80 text-foreground shadow-md transition-transform hover:scale-105 md:h-10 md:w-10"
                 >
                   <FiChevronRight className="h-5 w-5 text-white" />
                 </button>

@@ -1,3 +1,4 @@
+import { readApiMessage } from "@/lib/api-message";
 import type {
   ApiCategory,
   ApiFeaturedProduct,
@@ -17,7 +18,10 @@ async function dashboardFetch<T>(path: string): Promise<T> {
   });
 
   if (!response.ok) {
-    throw new Error(`Dashboard API ${path} failed: ${response.status}`);
+    const raw: unknown = await response.json().catch(() => null);
+    throw new Error(
+      readApiMessage(raw, `Dashboard API ${path} failed: ${response.status}`),
+    );
   }
 
   return response.json() as Promise<T>;

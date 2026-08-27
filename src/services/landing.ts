@@ -27,7 +27,7 @@ function mapCategories(categories: ApiCategory[]) {
       id: category.id,
       name: category.name,
       image: category.imageUrl,
-      href: `/shop/${category.slug}`,
+      href: `/products/${category.slug}`,
     })),
   };
 }
@@ -39,9 +39,9 @@ function mapProducts(products: ApiFeaturedProduct[]) {
       id: product.id,
       name: product.name,
       price: parseFloat(product.price),
-      currency: "$",
+      currency: "Rs.",
       image: product.images[0] ?? landingMock.hero.images[0],
-      href: `/product/${product.slug}`,
+      href: `/product/${product.id}`,
     })),
   };
 }

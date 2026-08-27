@@ -26,12 +26,12 @@ export default function ShopByCategory({
           </h2>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-start justify-center gap-x-8 gap-y-10 md:mt-9 md:gap-x-10 lg:flex-nowrap lg:gap-x-8 xl:gap-x-14">
+        <div className="mt-12 flex flex-wrap items-start justify-center gap-x-5 gap-y-8 sm:gap-x-8 sm:gap-y-10 md:mt-9 md:gap-x-10 lg:flex-nowrap lg:gap-x-8 xl:gap-x-14">
           {items.map((category) => (
             <Link
               key={category.id}
               href={category.href}
-              className="group flex w-39 flex-col items-center sm:w-44 md:w-50"
+              className="group flex w-[42%] max-w-36 flex-col items-center sm:w-44 sm:max-w-none md:w-50"
             >
               <div className="relative aspect-square w-full overflow-hidden rounded-full">
                 <Image
@@ -39,10 +39,10 @@ export default function ShopByCategory({
                   alt={category.name}
                   fill
                   className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                  sizes="(max-width: 640px) 156px, (max-width: 768px) 176px, 208px"
+                  sizes="(max-width: 640px) 144px, (max-width: 768px) 176px, 208px"
                 />
                 <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                  <span className="flex h-[50%] w-[50%] items-center justify-center rounded-full bg-dark-green/85 px-2 text-center font-serif text-[13px] whitespace-nowrap text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:text-sm">
+                  <span className="flex h-[50%] w-[50%] items-center justify-center rounded-full bg-dark-green/85 px-2 text-center font-serif text-[13px] whitespace-nowrap text-white opacity-100 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 md:text-sm">
                     View
                   </span>
                 </div>

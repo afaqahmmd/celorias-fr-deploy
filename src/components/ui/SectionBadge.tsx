@@ -12,7 +12,9 @@ export default function SectionBadge({
   return (
     <div
       className={`inline-flex items-center gap-2 rounded-full border px-6 py-2 ${
-        isDark ? "border-white/40 text-white" : "border-[#B18384] text-[#B18384]"
+        isDark
+          ? "border-white/40 text-white"
+          : "border-[#B18384] text-[#B18384]"
       }`}
     >
       <span

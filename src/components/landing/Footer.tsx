@@ -171,12 +171,12 @@ export default function Footer({
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter Your email"
                 required
-                className="w-full rounded-full border border-rose/70 bg-white py-2.5 pr-12 pl-5 text-sm text-foreground outline-none placeholder:text-rose/60 focus:border-rose"
+                className="w-full rounded-full border border-rose/70 bg-white py-2.5 pr-14 pl-5 text-sm text-foreground outline-none placeholder:text-rose/60 focus:border-rose"
               />
               <button
                 type="submit"
                 aria-label="Subscribe to newsletter"
-                className="absolute top-1/2 right-1.5 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-dark-green text-white transition-colors hover:bg-dark-green/90"
+                className="absolute top-1/2 right-1 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-dark-green text-white transition-colors hover:bg-dark-green/90"
               >
                 <FiArrowRight className="h-4 w-4" />
               </button>
@@ -221,9 +221,9 @@ export default function Footer({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={social.platform}
-                      className="flex h-6 w-6 items-center justify-center rounded-full bg-dark-green text-white transition-colors hover:bg-dark-green/90"
+                      className="flex h-10 w-10 items-center justify-center rounded-full bg-dark-green text-white transition-colors hover:bg-dark-green/90"
                     >
-                      <Icon className="h-3 w-3" />
+                      <Icon className="h-4 w-4" />
                     </a>
                   );
                 })}

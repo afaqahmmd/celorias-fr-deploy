@@ -3,6 +3,7 @@ export const siteAssets = {
   logo: "/images/logo.png",
   hero: "/images/hero_section.jpg",
   heroImages: ["/images/hero_section.jpg", "/images/hero_section2.jpg"],
+  productBg: "/images/product_bg.jpg",
   testimonialsBackground: "/images/testimonals.png",
   paypal: "/images/paypal.png",
   jazzcash: "/images/jazzcash.png",

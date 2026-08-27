@@ -5,7 +5,7 @@ export const landingMock: LandingData = {
   announcement: "Exclusive Engagement Rings - Your Perfect Choice",
   navLinks: [
     { label: "Home", href: "/" },
-    { label: "Shop", href: "/shop" },
+    { label: "Shop", href: "/products" },
     { label: "Collection", href: "/collection" },
   ],
   hero: {
@@ -47,35 +47,35 @@ export const landingMock: LandingData = {
         name: "Pendants",
         image:
           "https://images.unsplash.com/photo-1617038260897-41a89fa42ca6?w=400&h=400&fit=crop&q=80",
-        href: "/shop/pendants",
+        href: "/products/pendants",
       },
       {
         id: "earrings",
         name: "Earrings",
         image:
           "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&h=400&fit=crop&q=80",
-        href: "/shop/earrings",
+        href: "/products/earrings",
       },
       {
         id: "rings",
         name: "Rings",
         image:
           "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=400&fit=crop&q=80",
-        href: "/shop/rings",
+        href: "/products/rings",
       },
       {
         id: "bracelets",
         name: "Bracelets",
         image:
           "https://images.unsplash.com/photo-1611591437281-460bfbead0ee?w=400&h=400&fit=crop&q=80",
-        href: "/shop/bracelets",
+        href: "/products/bracelets",
       },
       {
         id: "chains",
         name: "Chains",
         image:
           "https://images.unsplash.com/photo-1599643478518-a784e690c445?w=400&h=400&fit=crop&q=80",
-        href: "/shop/chains",
+        href: "/products/chains",
       },
     ],
   },
@@ -122,7 +122,7 @@ export const landingMock: LandingData = {
       },
     ],
     ctaLabel: "Explore More",
-    ctaHref: "/shop",
+    ctaHref: "/products",
   },
   promise: {
     badge: "OUR PROMISE",
