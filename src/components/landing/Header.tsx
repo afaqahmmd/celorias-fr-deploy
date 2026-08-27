@@ -14,19 +14,23 @@ interface HeaderProps {
   navLinks: NavLink[];
 }
 
-const desktopIconClass =
-  "text-foreground transition-colors hover:text-rose";
+const desktopIconClass = "text-foreground transition-colors hover:text-rose";
 
 export default function Header({ navLinks }: HeaderProps) {
   const pathname = usePathname();
   const previousPathname = useRef(pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [menuPathname, setMenuPathname] = useState(pathname);
 
   if (previousPathname.current !== pathname) {
     previousPathname.current = pathname;
     if (isMenuOpen) {
       setIsMenuOpen(false);
     }
+  }
+  if (pathname !== menuPathname) {
+    setMenuPathname(pathname);
+    setIsMenuOpen(false);
   }
 
   useEffect(() => {
