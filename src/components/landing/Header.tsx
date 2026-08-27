@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiMenu } from "react-icons/fi";
@@ -19,11 +19,15 @@ const desktopIconClass =
 
 export default function Header({ navLinks }: HeaderProps) {
   const pathname = usePathname();
+  const previousPathname = useRef(pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [pathname]);
+  if (previousPathname.current !== pathname) {
+    previousPathname.current = pathname;
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+  }
 
   useEffect(() => {
     function handleResize() {
