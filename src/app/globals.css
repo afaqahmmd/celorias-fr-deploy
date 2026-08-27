@@ -2,25 +2,74 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1a1a1a;
+  --cream: #f5ebe6;
+  --cream-light: #fdf6f4;
+  --pink-section: #faf3f1;
+  --pink-icon: #f4e8e4;
+  --dark-green: #1a3a32;
+  --rose: #987070;
+  --rose-dark: #7d444f;
+  --rose-light: #b88686;
+  --mauve: #a4787a;
+  --gold: #c9a227;
+  --text-muted: #757575;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-cream: var(--cream);
+  --color-cream-light: var(--cream-light);
+  --color-pink-section: var(--pink-section);
+  --color-pink-icon: var(--pink-icon);
+  --color-dark-green: var(--dark-green);
+  --color-rose: var(--rose);
+  --color-rose-dark: var(--rose-dark);
+  --color-rose-light: var(--rose-light);
+  --color-mauve: var(--mauve);
+  --color-gold: var(--gold);
+  --color-text-muted: var(--text-muted);
+  --font-sans: var(--font-montserrat);
+  --font-serif: var(--font-playfair);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
+}
+
+.testimonial-quote-scroll {
+  scrollbar-width: none;
+}
+
+.testimonial-quote-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.hero-crossfade-slide {
+  animation: hero-crossfade 8s ease-in-out infinite both;
+}
+
+@keyframes hero-crossfade {
+  0%,
+  32.5% {
+    opacity: 1;
+  }
+  50%,
+  82.5% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
