@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiMenu } from "react-icons/fi";
@@ -18,16 +18,9 @@ const desktopIconClass = "text-foreground transition-colors hover:text-rose";
 
 export default function Header({ navLinks }: HeaderProps) {
   const pathname = usePathname();
-  const previousPathname = useRef(pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [menuPathname, setMenuPathname] = useState(pathname);
 
-  if (previousPathname.current !== pathname) {
-    previousPathname.current = pathname;
-    if (isMenuOpen) {
-      setIsMenuOpen(false);
-    }
-  }
   if (pathname !== menuPathname) {
     setMenuPathname(pathname);
     setIsMenuOpen(false);
