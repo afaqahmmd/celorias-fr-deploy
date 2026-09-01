@@ -76,7 +76,9 @@ export default function ProductDetailView({
               <li aria-hidden="true" className="hidden md:inline">
                 /
               </li>
-              <li className="min-w-0 truncate text-foreground">{product.name}</li>
+              <li className="min-w-0 truncate text-foreground">
+                {product.name}
+              </li>
             </ol>
           </nav>
 
