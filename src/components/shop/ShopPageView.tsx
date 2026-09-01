@@ -8,6 +8,7 @@ import {
   parseGridColumns,
   parseProductSortBy,
   parseQueryList,
+  parseSearchQuery,
   PRODUCT_PAGE_SIZE,
 } from "@/lib/catalog";
 import type { ApiCategory, ApiProduct } from "@/types/api";
@@ -26,6 +27,7 @@ interface ShopPageViewProps {
   stoneTypeParam?: string | string[];
   stoneColorParam?: string | string[];
   gridParam?: string | string[];
+  qParam?: string | string[];
 }
 
 export default async function ShopPageView({
@@ -34,11 +36,13 @@ export default async function ShopPageView({
   stoneTypeParam,
   stoneColorParam,
   gridParam,
+  qParam,
 }: ShopPageViewProps) {
   const sortBy = parseProductSortBy(sortByParam);
   const stoneTypes = parseQueryList(stoneTypeParam);
   const stoneColors = parseQueryList(stoneColorParam);
   const gridColumns = parseGridColumns(gridParam);
+  const searchQuery = parseSearchQuery(qParam);
 
   let errorMessage: string | null = null;
   let items: ApiProduct[] = [];
@@ -53,6 +57,7 @@ export default async function ShopPageView({
       pageSize: PRODUCT_PAGE_SIZE,
       sortBy,
       categorySlug,
+      q: searchQuery,
     });
     items = response.items;
     page = response.page;
@@ -92,13 +97,15 @@ export default async function ShopPageView({
       formatCategoryLabel(categorySlug);
   }
 
-  const breadcrumbs = categorySlug
-    ? [
-        { label: "Home", href: "/" },
-        { label: "Category", href: "/products" },
-        { label: categoryName ?? formatCategoryLabel(categorySlug) },
-      ]
-    : [{ label: "Home", href: "/" }, { label: "Products" }];
+  const breadcrumbs = searchQuery
+    ? [{ label: "Home", href: "/" }, { label: "Search" }]
+    : categorySlug
+      ? [
+          { label: "Home", href: "/" },
+          { label: "Category", href: "/products" },
+          { label: categoryName ?? formatCategoryLabel(categorySlug) },
+        ]
+      : [{ label: "Home", href: "/" }, { label: "Products" }];
 
   return (
     <SiteChrome>
@@ -110,7 +117,7 @@ export default async function ShopPageView({
         </section>
       ) : (
         <ShopListing
-          key={`${categorySlug ?? "all"}-${sortBy}`}
+          key={`${categorySlug ?? "all"}-${sortBy}-${searchQuery ?? ""}`}
           initialItems={items}
           page={page}
           totalPages={totalPages}
@@ -122,6 +129,7 @@ export default async function ShopPageView({
           stoneTypes={stoneTypes}
           stoneColors={stoneColors}
           pageSize={PRODUCT_PAGE_SIZE}
+          searchQuery={searchQuery}
         />
       )}
     </SiteChrome>

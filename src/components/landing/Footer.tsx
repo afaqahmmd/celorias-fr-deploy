@@ -46,7 +46,7 @@ function FooterLinkList({ links }: { links: FooterLink[] }) {
           />
           <a
             href={link.href}
-            className="text-[13px] leading-snug text-black transition-colors hover:text-rose"
+            className="text-[13px] leading-snug text-foreground transition-colors hover:text-rose"
           >
             {link.label}
           </a>
@@ -65,10 +65,10 @@ function ContactRow({
 }) {
   return (
     <div className="flex items-start gap-1">
-      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#A06B62] text-white">
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-mauve text-white">
         <Icon className="h-3.5 w-3.5" />
       </span>
-      <p className="pt-0.5 text-[13px] leading-snug text-[#4A4A4A]">
+      <p className="pt-0.5 text-[13px] leading-snug text-text-muted">
         {children}
       </p>
     </div>
@@ -155,12 +155,12 @@ export default function Footer({
   }
 
   return (
-    <footer className="bg-[#F7EFEB]">
+    <footer className="bg-cream">
       <div className="mx-auto max-w-7xl px-6 pt-12 pb-8 lg:px-10">
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div>
             <CeloriaLogo height={68} width={300} />
-            <p className="mt-4 max-w-70 text-[13px] leading-relaxed text-[#4A4A4A]">
+            <p className="mt-4 max-w-70 text-[13px] leading-relaxed text-text-muted">
               {tagline}
             </p>
 
@@ -234,7 +234,7 @@ export default function Footer({
 
         <hr className="mt-10 border-gray-300/50" />
 
-        <p className="mt-6 text-center text-[13px] text-[#4A4A4A]">
+        <p className="mt-6 text-center text-[13px] text-text-muted">
           {copyright}
         </p>
       </div>

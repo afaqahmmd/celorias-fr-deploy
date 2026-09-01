@@ -60,6 +60,18 @@ export function parseQueryValue(
   return raw || undefined;
 }
 
+const MAX_SEARCH_QUERY_LENGTH = 100;
+
+export function parseSearchQuery(
+  value: string | string[] | undefined,
+): string | undefined {
+  const trimmed = parseQueryValue(value)?.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+  return trimmed.slice(0, MAX_SEARCH_QUERY_LENGTH);
+}
+
 export function parseQueryList(value: string | string[] | undefined): string[] {
   const raw = Array.isArray(value) ? value.join(",") : value;
   if (!raw) {

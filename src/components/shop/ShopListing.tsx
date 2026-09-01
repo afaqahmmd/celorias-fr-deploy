@@ -43,6 +43,7 @@ interface ShopListingProps {
   stoneTypes: string[];
   stoneColors: string[];
   pageSize: number;
+  searchQuery?: string;
 }
 
 function toggleValue(values: string[], value: string): string[] {
@@ -63,6 +64,7 @@ export default function ShopListing({
   stoneTypes,
   stoneColors,
   pageSize,
+  searchQuery,
 }: ShopListingProps) {
   const router = useRouter();
   const sortDetailsRef = useRef<HTMLDetailsElement>(null);
@@ -96,12 +98,14 @@ export default function ShopListing({
     nextCategorySlug = categorySlug,
     nextStoneTypes = stoneTypes,
     nextStoneColors = stoneColors,
+    nextSearchQuery = searchQuery,
   }: {
     nextSortBy?: ProductSortBy;
     nextGrid?: GridColumns;
     nextCategorySlug?: string;
     nextStoneTypes?: string[];
     nextStoneColors?: string[];
+    nextSearchQuery?: string;
   } = {}): string {
     const params = new URLSearchParams();
     params.set("sortBy", nextSortBy);
@@ -113,6 +117,9 @@ export default function ShopListing({
     }
     if (nextStoneColors.length > 0) {
       params.set("stoneColor", nextStoneColors.join(","));
+    }
+    if (nextSearchQuery) {
+      params.set("q", nextSearchQuery);
     }
 
     const path = nextCategorySlug
@@ -145,6 +152,7 @@ export default function ShopListing({
         pageSize,
         sortBy,
         categorySlug,
+        q: searchQuery,
       });
       setItems((current) => [...current, ...response.items]);
       setPage(response.page);
@@ -163,6 +171,20 @@ export default function ShopListing({
   return (
     <section className="bg-white py-10 md:py-7">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        {searchQuery ? (
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm text-text-muted">
+              Searching for &ldquo;{searchQuery}&rdquo;
+            </p>
+            <Link
+              href="/products"
+              className="text-sm text-rose transition-colors hover:text-dark-green"
+            >
+              Clear search
+            </Link>
+          </div>
+        ) : null}
+
         <div className="relative z-40 mb-8 flex flex-col gap-4 overflow-visible sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <div className="flex items-center justify-between gap-4">
             <button
@@ -278,7 +300,9 @@ export default function ShopListing({
           <div className="min-w-0 flex-1">
             {items.length === 0 ? (
               <p className="py-16 text-center text-sm text-text-muted">
-                No products found in this collection.
+                {searchQuery
+                  ? `No products found for “${searchQuery}”.`
+                  : "No products found in this collection."}
               </p>
             ) : (
               <div className={GRID_CLASS[gridColumns]}>

@@ -17,12 +17,12 @@ export default function ShopByCategory({
   items,
 }: ShopByCategoryProps) {
   return (
-    <section className="bg-[#F7EFEB] py-16 md:py-11">
+    <section className="bg-cream py-16 md:py-11">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex flex-col items-center text-center">
           <SectionBadge label={badge} />
           <h2 className="mt-5 font-serif text-[32px] leading-tight text-foreground md:mt-6 md:text-[42px] lg:text-[46px]">
-            {title} <span className="text-rose ">{titleAccent}</span>
+            {title} <span className="text-rose">{titleAccent}</span>
           </h2>
         </div>
 

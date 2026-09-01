@@ -2,18 +2,18 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #1a1a1a;
-  --cream: #f5ebe6;
-  --cream-light: #fdf6f4;
-  --pink-section: #faf3f1;
-  --pink-icon: #f4e8e4;
-  --dark-green: #1a3a32;
-  --rose: #987070;
+  --foreground: #443934;
+  --cream: #f7efec;
+  --cream-light: #f2e3de;
+  --pink-section: #f2e3de;
+  --pink-icon: #f7efec;
+  --dark-green: #123b37;
+  --rose: #b18384;
   --rose-dark: #7d444f;
   --rose-light: #b88686;
-  --mauve: #a4787a;
+  --mauve: #a06b62;
   --gold: #c9a227;
-  --text-muted: #757575;
+  --text-muted: #847875;
 }
 
 @theme inline {
@@ -30,7 +30,7 @@
   --color-mauve: var(--mauve);
   --color-gold: var(--gold);
   --color-text-muted: var(--text-muted);
-  --font-sans: var(--font-montserrat);
+  --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
 }
 
@@ -45,7 +45,7 @@ html::-webkit-scrollbar {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }
 
 .testimonial-quote-scroll {

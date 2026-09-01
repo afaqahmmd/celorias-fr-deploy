@@ -25,6 +25,7 @@ export interface FetchProductsParams {
   pageSize?: number;
   sortBy?: ProductSortBy;
   categorySlug?: string;
+  q?: string;
 }
 
 export async function fetchProducts(
@@ -39,6 +40,12 @@ export async function fetchProducts(
   }
   if (params.categorySlug) {
     searchParams.set("categorySlug", params.categorySlug);
+  }
+  if (params.q) {
+    const q = params.q.trim().slice(0, 100);
+    if (q) {
+      searchParams.set("q", q);
+    }
   }
 
   const path = `/products?${searchParams.toString()}`;

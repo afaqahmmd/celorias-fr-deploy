@@ -2,6 +2,7 @@
 
 import {
   isProductSortBy,
+  parseSearchQuery,
   PRODUCT_PAGE_SIZE,
 } from "@/lib/catalog";
 import { fetchProducts } from "@/services/products";
@@ -12,6 +13,7 @@ export async function loadProductsPage(params: {
   pageSize?: number;
   sortBy: ProductSortBy;
   categorySlug?: string;
+  q?: string;
 }): Promise<ApiProductListResponse> {
   const page = Number.isInteger(params.page) && params.page > 0 ? params.page : 1;
   const pageSize =
@@ -30,5 +32,6 @@ export async function loadProductsPage(params: {
     pageSize,
     sortBy,
     categorySlug: params.categorySlug,
+    q: parseSearchQuery(params.q),
   });
 }

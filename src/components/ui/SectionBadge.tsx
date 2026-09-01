@@ -14,15 +14,15 @@ export default function SectionBadge({
       className={`inline-flex items-center gap-2 rounded-full border px-6 py-2 ${
         isDark
           ? "border-white/40 text-white"
-          : "border-[#B18384] text-[#B18384]"
+          : "border-rose text-rose"
       }`}
     >
       <span
         className={`h-1.5 w-1.5 rounded-full ${
-          isDark ? "bg-white" : "bg-[#B18384]"
+          isDark ? "bg-white" : "bg-rose"
         }`}
       />
-      <span className="font-serif text-[12px] tracking-[0.16em] uppercase">
+      <span className="text-[12px] tracking-[0.16em] uppercase">
         {label}
       </span>
     </div>

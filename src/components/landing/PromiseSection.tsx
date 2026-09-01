@@ -37,12 +37,12 @@ export default function PromiseSection({
   items,
 }: PromiseSectionProps) {
   return (
-    <section className="bg-[#F2E3DF] py-16 md:py-13">
+    <section className="bg-cream-light py-16 md:py-13">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="text-center">
           <SectionBadge label={badge} />
-          <h2 className="mt-6 font-serif text-3xl text-[#443934] md:text-4xl">
-            {title} <span className="text-[#B18384]">{titleAccent}</span>
+          <h2 className="mt-6 font-serif text-3xl text-foreground md:text-4xl">
+            {title} <span className="text-rose">{titleAccent}</span>
           </h2>
         </div>
 
@@ -52,10 +52,10 @@ export default function PromiseSection({
               key={item.title}
               className="flex flex-col items-center px-6 py-10 text-center md:py-2"
             >
-              <div className="group flex h-34 w-34 items-center justify-center rounded-md bg-[#F7EFEB] hover:bg-dark-green">
+              <div className="group flex h-34 w-34 items-center justify-center rounded-md bg-cream hover:bg-dark-green">
                 <PromiseIcon icon={item.icon} />
               </div>
-              <p className="mt-6 font-serif text-lg text-[#443934] md:text-lg">
+              <p className="mt-6 font-serif text-lg text-foreground md:text-lg">
                 {item.title}
               </p>
             </div>

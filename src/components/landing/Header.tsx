@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiMenu } from "react-icons/fi";
 import { IoIosHeart, IoIosSearch, IoMdPerson } from "react-icons/io";
 import HeaderCart from "@/components/cart/HeaderCart";
+import HeaderSearch from "@/components/landing/HeaderSearch";
 import MobileNavDrawer from "@/components/landing/MobileNavDrawer";
 import CeloriaLogo from "@/components/ui/CeloriaLogo";
 import type { NavLink } from "@/types/landing";
@@ -20,12 +21,23 @@ const desktopIconClass =
 export default function Header({ navLinks }: HeaderProps) {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [menuPathname, setMenuPathname] = useState(pathname);
 
   if (pathname !== menuPathname) {
     setMenuPathname(pathname);
     setIsMenuOpen(false);
+    setIsSearchOpen(false);
   }
+
+  const closeSearch = useCallback(() => {
+    setIsSearchOpen(false);
+  }, []);
+
+  const openSearch = useCallback(() => {
+    setIsMenuOpen(false);
+    setIsSearchOpen(true);
+  }, []);
 
   useEffect(() => {
     function handleResize() {
@@ -39,7 +51,7 @@ export default function Header({ navLinks }: HeaderProps) {
   }, []);
 
   return (
-    <header className="bg-[#F7EFEB]">
+    <header className="bg-cream">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-1 md:px-6 lg:px-8">
         <Link href="/" aria-label="Celoria home" className="shrink-0">
           <span className="block md:hidden">
@@ -66,6 +78,16 @@ export default function Header({ navLinks }: HeaderProps) {
           <button
             type="button"
             aria-label="Search"
+            aria-expanded={isSearchOpen}
+            aria-controls="header-search-dialog"
+            onClick={() =>
+              setIsSearchOpen((open) => {
+                if (!open) {
+                  setIsMenuOpen(false);
+                }
+                return !open;
+              })
+            }
             className={`hidden md:inline-flex ${desktopIconClass}`}
           >
             <IoIosSearch className="h-6 w-6" />
@@ -102,8 +124,11 @@ export default function Header({ navLinks }: HeaderProps) {
         <MobileNavDrawer
           navLinks={navLinks}
           onClose={() => setIsMenuOpen(false)}
+          onSearch={openSearch}
         />
       ) : null}
+
+      {isSearchOpen ? <HeaderSearch onClose={closeSearch} /> : null}
     </header>
   );
 }
