@@ -59,20 +59,50 @@ function parseCartItem(value: unknown): ApiCartItem | null {
   };
 }
 
+function readItemCount(
+  value: Record<string, unknown>,
+  items: ApiCartItem[],
+): number {
+  if (typeof value.itemCount === "number" && Number.isFinite(value.itemCount)) {
+    return value.itemCount;
+  }
+
+  if (typeof value.itemCount === "string") {
+    const parsed = Number(value.itemCount);
+    if (Number.isFinite(parsed)) {
+      return parsed;
+    }
+  }
+
+  return items.reduce((total, item) => total + item.quantity, 0);
+}
+
 function parseCart(value: unknown): ApiCart | null {
-  if (!isRecord(value) || !Array.isArray(value.items)) {
+  if (!isRecord(value)) {
     return null;
   }
 
-  const items = value.items
+  const payload =
+    Array.isArray(value.items)
+      ? value
+      : isRecord(value.data) && Array.isArray(value.data.items)
+        ? value.data
+        : null;
+
+  if (!payload) {
+    return null;
+  }
+
+  const rawItems: unknown[] = Array.isArray(payload.items) ? payload.items : [];
+  const items = rawItems
     .map(parseCartItem)
     .filter((item): item is ApiCartItem => item !== null);
 
   return {
-    id: typeof value.id === "string" ? value.id : null,
+    id: typeof payload.id === "string" ? payload.id : null,
     items,
-    itemCount: typeof value.itemCount === "number" ? value.itemCount : 0,
-    subtotal: typeof value.subtotal === "string" ? value.subtotal : "0",
+    itemCount: readItemCount(payload, items),
+    subtotal: typeof payload.subtotal === "string" ? payload.subtotal : "0",
   };
 }
 

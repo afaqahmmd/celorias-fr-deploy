@@ -6,7 +6,6 @@ import Link from "next/link";
 import { FiEye } from "react-icons/fi";
 import { IoIosHeart, IoMdCart } from "react-icons/io";
 import StarRating from "@/components/ui/StarRating";
-import QuickViewModal from "@/components/shop/QuickViewModal";
 import { addCartItem } from "@/actions/cart";
 import { getCartAuth } from "@/lib/auth";
 import {
@@ -36,7 +35,6 @@ export default function ProductCard({ product }: ProductCardProps) {
     product.reviewCount,
   );
   const [cartStatus, setCartStatus] = useState<CartStatus>("idle");
-  const [quickViewOpen, setQuickViewOpen] = useState(false);
   const productIds = useWishlistStore((state) => state.productIds);
   const toggleWishlist = useWishlistStore((state) => state.toggle);
   const isWishlisted = productIds.includes(product.id);
@@ -78,10 +76,10 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className="absolute inset-x-0 bottom-4 flex items-center justify-center gap-3">
             <ProductActions
               productName={product.name}
+              productHref={productHref}
               isWishlisted={isWishlisted}
               cartStatus={cartStatus}
               isOutOfStock={isOutOfStock}
-              onQuickView={() => setQuickViewOpen(true)}
               onToggleWishlist={() => toggleWishlist(product.id)}
               onAddToCart={handleAddToCart}
             />
@@ -119,47 +117,39 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
         ) : null}
       </Link>
-
-      {quickViewOpen ? (
-        <QuickViewModal
-          product={product}
-          onClose={() => setQuickViewOpen(false)}
-        />
-      ) : null}
     </article>
   );
 }
 
 interface ProductActionsProps {
   productName: string;
+  productHref?: string;
   isWishlisted: boolean;
   cartStatus: CartStatus;
   isOutOfStock: boolean;
-  onQuickView?: () => void;
   onToggleWishlist: () => void;
   onAddToCart: () => void;
 }
 
 function ProductActions({
   productName,
+  productHref,
   isWishlisted,
   cartStatus,
   isOutOfStock,
-  onQuickView,
   onToggleWishlist,
   onAddToCart,
 }: ProductActionsProps) {
   return (
     <>
-      {onQuickView ? (
-        <button
-          type="button"
-          aria-label={`Quick view ${productName}`}
-          onClick={onQuickView}
+      {productHref ? (
+        <Link
+          href={productHref}
+          aria-label={`View ${productName}`}
           className={actionButtonClass}
         >
           <FiEye className="h-4 w-4" />
-        </button>
+        </Link>
       ) : null}
 
       <button

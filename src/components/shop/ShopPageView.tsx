@@ -4,7 +4,9 @@ import SiteChrome from "@/components/layout/SiteChrome";
 import ApiErrorToast from "@/components/ui/ApiErrorToast";
 import { fetchDashboardCategories } from "@/services/dashboard";
 import { fetchProducts } from "@/services/products";
+import { fetchSearchResults } from "@/services/search";
 import {
+  isSearchableQuery,
   parseGridColumns,
   parseProductSortBy,
   parseQueryList,
@@ -52,17 +54,28 @@ export default async function ShopPageView({
   let categories: Pick<ApiCategory, "name" | "slug">[] = [];
 
   try {
-    const response = await fetchProducts({
-      page: 1,
-      pageSize: PRODUCT_PAGE_SIZE,
-      sortBy,
-      categorySlug,
-      q: searchQuery,
-    });
-    items = response.items;
-    page = response.page;
-    totalPages = response.totalPages;
-    total = response.total;
+    if (isSearchableQuery(searchQuery)) {
+      const response = await fetchSearchResults({
+        q: searchQuery,
+        page: 1,
+        pageSize: PRODUCT_PAGE_SIZE,
+      });
+      items = response.items;
+      page = response.page;
+      totalPages = response.totalPages;
+      total = response.total;
+    } else if (!searchQuery) {
+      const response = await fetchProducts({
+        page: 1,
+        pageSize: PRODUCT_PAGE_SIZE,
+        sortBy,
+        categorySlug,
+      });
+      items = response.items;
+      page = response.page;
+      totalPages = response.totalPages;
+      total = response.total;
+    }
   } catch (error) {
     console.error("Failed to fetch products:", error);
     errorMessage =

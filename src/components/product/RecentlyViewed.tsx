@@ -127,25 +127,23 @@ export default function RecentlyViewed({
       </div>
 
       {showNav ? (
-        <div className="mt-10 flex justify-center md:mt-12">
-          <div className="inline-flex items-center rounded-full bg-[#2c2c2c] px-1.5 py-1.5">
-            <button
-              type="button"
-              aria-label="Previous recently viewed products"
-              onClick={() => scrollByCard(-1)}
-              className="flex h-10 w-10 items-center justify-center text-white transition-opacity hover:opacity-80"
-            >
-              <FiChevronLeft className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              aria-label="Next recently viewed products"
-              onClick={() => scrollByCard(1)}
-              className="flex h-10 w-10 items-center justify-center text-white transition-opacity hover:opacity-80"
-            >
-              <FiChevronRight className="h-4 w-4" />
-            </button>
-          </div>
+        <div className="mt-10 flex justify-center gap-3 md:mt-12">
+          <button
+            type="button"
+            aria-label="Previous recently viewed products"
+            onClick={() => scrollByCard(-1)}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-rose-light/80 text-foreground shadow-md transition-transform hover:scale-105 md:h-10 md:w-10"
+          >
+            <FiChevronLeft className="h-5 w-5 text-white" />
+          </button>
+          <button
+            type="button"
+            aria-label="Next recently viewed products"
+            onClick={() => scrollByCard(1)}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-rose-light/80 text-foreground shadow-md transition-transform hover:scale-105 md:h-10 md:w-10"
+          >
+            <FiChevronRight className="h-5 w-5 text-white" />
+          </button>
         </div>
       ) : null}
     </section>

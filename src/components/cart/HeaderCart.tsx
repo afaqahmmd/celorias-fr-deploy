@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { IoMdCart } from "react-icons/io";
 import {
@@ -16,7 +16,11 @@ import type { ApiCart, ApiCartItem } from "@/types/api";
 
 export default function HeaderCart() {
   const router = useRouter();
-  const itemCount = useCartStore((state) => state.itemCount);
+  const itemCount = useSyncExternalStore(
+    useCartStore.subscribe,
+    () => useCartStore.getState().itemCount,
+    () => 0,
+  );
   const setFromCart = useCartStore((state) => state.setFromCart);
   const [isOpen, setIsOpen] = useState(false);
   const [cart, setCart] = useState<ApiCart | null>(null);

@@ -82,6 +82,18 @@ export interface ApiProductListResponse {
   totalPages: number;
 }
 
+export interface ApiSearchSuggestion {
+  id: string;
+  name: string;
+  slug: string;
+  price: string;
+  thumbnail: string | null;
+}
+
+export interface ApiSearchSuggestionResponse {
+  items: ApiSearchSuggestion[];
+}
+
 export interface ApiCartItem {
   productId: string;
   productName: string;

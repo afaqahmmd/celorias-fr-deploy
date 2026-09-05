@@ -60,6 +60,7 @@ export function parseQueryValue(
   return raw || undefined;
 }
 
+export const MIN_SEARCH_QUERY_LENGTH = 2;
 const MAX_SEARCH_QUERY_LENGTH = 100;
 
 export function parseSearchQuery(
@@ -70,6 +71,10 @@ export function parseSearchQuery(
     return undefined;
   }
   return trimmed.slice(0, MAX_SEARCH_QUERY_LENGTH);
+}
+
+export function isSearchableQuery(value: string | undefined): value is string {
+  return Boolean(value && value.length >= MIN_SEARCH_QUERY_LENGTH);
 }
 
 export function parseQueryList(value: string | string[] | undefined): string[] {

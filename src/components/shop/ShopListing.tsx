@@ -8,6 +8,7 @@ import { FiChevronDown } from "react-icons/fi";
 import ProductCard from "@/components/shop/ProductCard";
 import ShopFilters from "@/components/shop/ShopFilters";
 import { loadProductsPage } from "@/actions/products";
+import { loadSearchPage } from "@/actions/search";
 import {
   PRODUCT_SORT_OPTIONS,
   type GridColumns,
@@ -147,13 +148,18 @@ export default function ShopListing({
     setIsLoadingMore(true);
 
     try {
-      const response = await loadProductsPage({
-        page: page + 1,
-        pageSize,
-        sortBy,
-        categorySlug,
-        q: searchQuery,
-      });
+      const response = searchQuery
+        ? await loadSearchPage({
+            q: searchQuery,
+            page: page + 1,
+            pageSize,
+          })
+        : await loadProductsPage({
+            page: page + 1,
+            pageSize,
+            sortBy,
+            categorySlug,
+          });
       setItems((current) => [...current, ...response.items]);
       setPage(response.page);
       setTotalPages(response.totalPages);
@@ -233,40 +239,42 @@ export default function ShopListing({
             </p>
           </div>
 
-          <div className="relative z-50 flex w-full items-center gap-2 text-sm sm:w-auto">
-            <span className="shrink-0 text-text-muted">Sort By</span>
-            <details ref={sortDetailsRef} className="relative min-w-0 flex-1 sm:flex-none">
-              <summary className="flex min-h-11 w-full cursor-pointer list-none items-center justify-between gap-2 border border-gray-200 bg-white px-3 py-2 outline-none hover:border-rose sm:min-h-0 sm:w-auto [&::-webkit-details-marker]:hidden">
-                {currentSortLabel}
-                <FiChevronDown className="h-4 w-4 text-text-muted" />
-              </summary>
-              <ul
-                className="absolute right-0 left-0 z-50 mt-2 min-w-48 border border-gray-200 bg-white py-1 shadow-lg sm:left-auto"
-                role="listbox"
-                aria-label="Sort products"
-                onPointerDown={(event) => event.stopPropagation()}
-              >
-                {PRODUCT_SORT_OPTIONS.map((option) => {
-                  const isActive = option.value === sortBy;
+          {searchQuery ? null : (
+            <div className="relative z-50 flex w-full items-center gap-2 text-sm sm:w-auto">
+              <span className="shrink-0 text-text-muted">Sort By</span>
+              <details ref={sortDetailsRef} className="relative min-w-0 flex-1 sm:flex-none">
+                <summary className="flex min-h-11 w-full cursor-pointer list-none items-center justify-between gap-2 border border-gray-200 bg-white px-3 py-2 outline-none hover:border-rose sm:min-h-0 sm:w-auto [&::-webkit-details-marker]:hidden">
+                  {currentSortLabel}
+                  <FiChevronDown className="h-4 w-4 text-text-muted" />
+                </summary>
+                <ul
+                  className="absolute right-0 left-0 z-50 mt-2 min-w-48 border border-gray-200 bg-white py-1 shadow-lg sm:left-auto"
+                  role="listbox"
+                  aria-label="Sort products"
+                  onPointerDown={(event) => event.stopPropagation()}
+                >
+                  {PRODUCT_SORT_OPTIONS.map((option) => {
+                    const isActive = option.value === sortBy;
 
-                  return (
-                    <li key={option.value} role="option" aria-selected={isActive}>
-                      <Link
-                        href={buildListingHref({ nextSortBy: option.value })}
-                        scroll={false}
-                        onClick={closeSortMenu}
-                        className={`block px-4 py-2 text-sm transition-colors hover:bg-cream ${
-                          isActive ? "text-rose" : "text-foreground"
-                        }`}
-                      >
-                        {option.label}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </details>
-          </div>
+                    return (
+                      <li key={option.value} role="option" aria-selected={isActive}>
+                        <Link
+                          href={buildListingHref({ nextSortBy: option.value })}
+                          scroll={false}
+                          onClick={closeSortMenu}
+                          className={`block px-4 py-2 text-sm transition-colors hover:bg-cream ${
+                            isActive ? "text-rose" : "text-foreground"
+                          }`}
+                        >
+                          {option.label}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </details>
+            </div>
+          )}
         </div>
 
         <div className="relative z-0 flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-12">
