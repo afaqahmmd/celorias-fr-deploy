@@ -10,21 +10,22 @@ export const PRODUCT_SORT_OPTIONS: { value: ProductSortBy; label: string }[] = [
 ];
 
 export const STONE_TYPE_OPTIONS = [
-  { value: "diamond", label: "Diamond" },
-  { value: "kundan", label: "Kundan" },
-  { value: "pearl", label: "Pearl" },
-  { value: "ruby", label: "Ruby" },
-  { value: "emerald", label: "Emerald" },
-  { value: "sapphire", label: "Sapphire" },
+  { value: "Diamond", label: "Diamond" },
+  { value: "Kundan", label: "Kundan" },
+  { value: "Pearl", label: "Pearl" },
+  { value: "Ruby", label: "Ruby" },
+  { value: "Emerald", label: "Emerald" },
+  { value: "Sapphire", label: "Sapphire" },
 ] as const;
 
 export const STONE_COLOR_OPTIONS = [
-  { value: "white", label: "White" },
-  { value: "yellow", label: "Yellow" },
-  { value: "rose", label: "Rose" },
-  { value: "green", label: "Green" },
-  { value: "red", label: "Red" },
-  { value: "blue", label: "Blue" },
+  { value: "White", label: "White" },
+  { value: "Yellow", label: "Yellow" },
+  { value: "Rose", label: "Rose" },
+  { value: "Green", label: "Green" },
+  { value: "Red", label: "Red" },
+  { value: "Blue", label: "Blue" },
+  { value: "Silver", label: "Silver" },
 ] as const;
 
 export type GridColumns = 3 | 4 | 5;

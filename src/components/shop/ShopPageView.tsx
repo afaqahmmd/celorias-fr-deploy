@@ -70,6 +70,8 @@ export default async function ShopPageView({
         pageSize: PRODUCT_PAGE_SIZE,
         sortBy,
         categorySlug,
+        stoneType: stoneTypes.length > 0 ? stoneTypes : undefined,
+        color: stoneColors.length > 0 ? stoneColors : undefined,
       });
       items = response.items;
       page = response.page;

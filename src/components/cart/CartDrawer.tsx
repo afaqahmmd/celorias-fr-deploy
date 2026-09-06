@@ -134,6 +134,13 @@ export default function CartDrawer({
           >
             Checkout {formatCheckoutTotal(subtotal)}
           </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="mt-3 w-full border border-[#8E5C63] bg-white py-3.5 font-serif text-sm tracking-wide text-[#8E5C63] transition-colors hover:bg-[#8E5C63]/5"
+          >
+            Continue Shopping
+          </button>
         </div>
       </aside>
     </div>

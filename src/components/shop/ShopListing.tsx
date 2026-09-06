@@ -69,11 +69,20 @@ export default function ShopListing({
 }: ShopListingProps) {
   const router = useRouter();
   const sortDetailsRef = useRef<HTMLDetailsElement>(null);
+  const listingKey = `${categorySlug ?? "all"}|${sortBy}|${searchQuery ?? ""}|${stoneTypes.join(",")}|${stoneColors.join(",")}`;
+  const [activeListingKey, setActiveListingKey] = useState(listingKey);
   const [items, setItems] = useState(initialItems);
   const [page, setPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(initialTotalPages);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
+
+  if (activeListingKey !== listingKey) {
+    setActiveListingKey(listingKey);
+    setItems(initialItems);
+    setPage(initialPage);
+    setTotalPages(initialTotalPages);
+  }
 
   useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
@@ -133,7 +142,7 @@ export default function ShopListing({
   function pushListingUrl(
     next: Parameters<typeof buildListingHref>[0] = {},
   ) {
-    router.push(buildListingHref(next));
+    router.push(buildListingHref(next), { scroll: false });
   }
 
   function closeSortMenu() {
@@ -159,6 +168,8 @@ export default function ShopListing({
             pageSize,
             sortBy,
             categorySlug,
+            stoneType: stoneTypes.length > 0 ? stoneTypes : undefined,
+            color: stoneColors.length > 0 ? stoneColors : undefined,
           });
       setItems((current) => [...current, ...response.items]);
       setPage(response.page);

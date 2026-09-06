@@ -54,6 +54,13 @@ function AdditionalInfoContent({ product }: { product: ApiProductDetail }) {
     { label: "Stock", value: String(product.stock) },
   ];
 
+  if (product.stoneType) {
+    specRows.push({ label: "Stone Type", value: product.stoneType });
+  }
+  if (product.color) {
+    specRows.push({ label: "Color", value: product.color });
+  }
+
   if (info && typeof info === "object" && !Array.isArray(info)) {
     for (const [key, value] of Object.entries(info as Record<string, unknown>)) {
       specRows.push({ label: formatInfoKey(key), value: formatInfoValue(value) });

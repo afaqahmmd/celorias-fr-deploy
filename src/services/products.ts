@@ -26,6 +26,25 @@ export interface FetchProductsParams {
   sortBy?: ProductSortBy;
   categorySlug?: string;
   q?: string;
+  stoneType?: string[];
+  color?: string[];
+}
+
+function appendQueryList(
+  searchParams: URLSearchParams,
+  key: string,
+  values?: string[],
+) {
+  if (!values?.length) {
+    return;
+  }
+
+  for (const value of values) {
+    const trimmed = value.trim();
+    if (trimmed) {
+      searchParams.append(key, trimmed);
+    }
+  }
 }
 
 export async function fetchProducts(
@@ -47,6 +66,8 @@ export async function fetchProducts(
       searchParams.set("q", q);
     }
   }
+  appendQueryList(searchParams, "stoneType", params.stoneType);
+  appendQueryList(searchParams, "color", params.color);
 
   const path = `/products?${searchParams.toString()}`;
   const response = await fetch(`${API_URL}${path}`, {

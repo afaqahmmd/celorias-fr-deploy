@@ -52,6 +52,8 @@ export interface ApiProduct {
   isActive: boolean;
   soldCount: number;
   additionalInfo: unknown;
+  stoneType?: string | null;
+  color?: string | null;
   createdAt: string;
   updatedAt: string;
   category: ApiProductCategory;

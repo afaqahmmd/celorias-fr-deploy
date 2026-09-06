@@ -14,6 +14,8 @@ export async function loadProductsPage(params: {
   sortBy: ProductSortBy;
   categorySlug?: string;
   q?: string;
+  stoneType?: string[];
+  color?: string[];
 }): Promise<ApiProductListResponse> {
   const page = Number.isInteger(params.page) && params.page > 0 ? params.page : 1;
   const pageSize =
@@ -33,5 +35,7 @@ export async function loadProductsPage(params: {
     sortBy,
     categorySlug: params.categorySlug,
     q: parseSearchQuery(params.q),
+    stoneType: params.stoneType,
+    color: params.color,
   });
 }
