@@ -82,7 +82,7 @@ export default function ContactPageView() {
               className="hidden self-stretch px-5 sm:flex"
               aria-hidden="true"
             >
-              <span className="w-px bg-black/12" />
+              <span className="h-full w-px bg-black/10" />
             </div>
             <article className="rounded-2xl bg-[#F2F2F247] px-8 py-10 text-center">
               <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-mauve text-white hover:bg-[#123B37] cursor-pointer">
