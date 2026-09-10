@@ -7,6 +7,7 @@ export const landingMock: LandingData = {
     { label: "Home", href: "/" },
     { label: "Shop", href: "/products" },
     { label: "Collection", href: "/collection" },
+    { label: "Contact Us", href: "/contact" },
   ],
   hero: {
     badge: "WHERE FASHION MEETS ELEGANCE",
