@@ -47,36 +47,36 @@ export const landingMock: LandingData = {
         id: "pendants",
         name: "Pendants",
         image:
-          "https://images.unsplash.com/photo-1617038260897-41a89fa42ca6?w=400&h=400&fit=crop&q=80",
+          "https://plus.unsplash.com/premium_photo-1681276170092-446cd1b5b32d?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         href: "/products/pendants",
       },
       {
         id: "earrings",
         name: "Earrings",
         image:
-          "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&h=400&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1590166223826-12dee1677420?q=80&w=689&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         href: "/products/earrings",
-      },
-      {
-        id: "rings",
-        name: "Rings",
-        image:
-          "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=400&fit=crop&q=80",
-        href: "/products/rings",
       },
       {
         id: "bracelets",
         name: "Bracelets",
         image:
-          "https://images.unsplash.com/photo-1611591437281-460bfbead0ee?w=400&h=400&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1721206624492-3d05631471ea?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8YnJhY2VsZXRzfGVufDB8fDB8fHww",
         href: "/products/bracelets",
       },
       {
-        id: "chains",
-        name: "Chains",
+        id: "sets",
+        name: "Sets",
         image:
-          "https://images.unsplash.com/photo-1599643478518-a784e690c445?w=400&h=400&fit=crop&q=80",
-        href: "/products/chains",
+          "https://plus.unsplash.com/premium_photo-1681276169939-5ad54d5de5fd?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDl8fGpld2VsbGVyeSUyMHNldHN8ZW58MHx8MHx8fDA%3D",
+        href: "/products/sets",
+      },
+      {
+        id: "ethnic-jewellery",
+        name: "Ethnic Jewellery",
+        image:
+          "https://plus.unsplash.com/premium_photo-1669374216974-ae28097f1ceb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZXRobmljJTIwamV3ZWxsZXJ5JTIwaXRlbXN8ZW58MHx8MHx8fDA%3D",
+        href: "/products/ethnic-jewellery",
       },
     ],
   },

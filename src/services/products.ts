@@ -2,8 +2,10 @@ import {
   isProductSortBy,
   PRODUCT_PAGE_SIZE,
 } from "@/lib/catalog";
-import { readApiMessage } from "@/lib/api-message";
+// import { readApiMessage } from "@/lib/api-message";
+import { mockProducts } from "@/data/mock/products";
 import type {
+  ApiProduct,
   ApiProductDetail,
   ApiProductListResponse,
   ProductSortBy,
@@ -18,7 +20,7 @@ export {
   PRODUCT_SORT_OPTIONS,
 } from "@/lib/catalog";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
+// const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
 
 export interface FetchProductsParams {
   page?: number;
@@ -30,98 +32,196 @@ export interface FetchProductsParams {
   color?: string[];
 }
 
-function appendQueryList(
-  searchParams: URLSearchParams,
-  key: string,
-  values?: string[],
-) {
-  if (!values?.length) {
-    return;
-  }
+// function appendQueryList(
+//   searchParams: URLSearchParams,
+//   key: string,
+//   values?: string[],
+// ) {
+//   if (!values?.length) {
+//     return;
+//   }
+//
+//   for (const value of values) {
+//     const trimmed = value.trim();
+//     if (trimmed) {
+//       searchParams.append(key, trimmed);
+//     }
+//   }
+// }
 
-  for (const value of values) {
-    const trimmed = value.trim();
-    if (trimmed) {
-      searchParams.append(key, trimmed);
-    }
+function sortProducts(
+  items: ApiProduct[],
+  sortBy?: ProductSortBy,
+): ApiProduct[] {
+  const sorted = [...items];
+  switch (sortBy) {
+    case "price_asc":
+      return sorted.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+    case "price_desc":
+      return sorted.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+    case "most_reviews":
+      return sorted.sort((a, b) => b.reviewCount - a.reviewCount);
+    case "best_sellers":
+    default:
+      return sorted.sort((a, b) => b.soldCount - a.soldCount);
   }
 }
 
-export async function fetchProducts(
-  params: FetchProductsParams = {},
-): Promise<ApiProductListResponse> {
-  const searchParams = new URLSearchParams();
-  searchParams.set("page", String(params.page ?? 1));
-  searchParams.set("pageSize", String(params.pageSize ?? PRODUCT_PAGE_SIZE));
-
-  if (params.sortBy && isProductSortBy(params.sortBy)) {
-    searchParams.set("sortBy", params.sortBy);
-  }
-  if (params.categorySlug) {
-    searchParams.set("categorySlug", params.categorySlug);
-  }
-  if (params.q) {
-    const q = params.q.trim().slice(0, 100);
-    if (q) {
-      searchParams.set("q", q);
-    }
-  }
-  appendQueryList(searchParams, "stoneType", params.stoneType);
-  appendQueryList(searchParams, "color", params.color);
-
-  const path = `/products?${searchParams.toString()}`;
-  const response = await fetch(`${API_URL}${path}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    next: { revalidate: 60 },
-  });
-
-  if (!response.ok) {
-    const raw: unknown = await response.json().catch(() => null);
-    throw new Error(
-      readApiMessage(
-        raw,
-        "Unable to load products. Please try again later.",
-      ),
-    );
-  }
-
-  return response.json() as Promise<ApiProductListResponse>;
-}
-
-export async function fetchProductById(
-  id: string,
-): Promise<ApiProductDetail | null> {
-  const path = `/products/${id}`;
-  const response = await fetch(`${API_URL}${path}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    next: { revalidate: 60 },
-  });
-
-  if (response.status === 404) {
-    return null;
-  }
-
-  if (!response.ok) {
-    const raw: unknown = await response.json().catch(() => null);
-    throw new Error(
-      readApiMessage(
-        raw,
-        "Unable to load this product. Please try again later.",
-      ),
-    );
-  }
-
-  const data = (await response.json()) as ApiProductDetail;
+function toProductDetail(product: (typeof mockProducts)[number]): ApiProductDetail {
   return {
-    ...data,
-    reviews: data.reviews ?? {
-      averageRating: 0,
-      count: 0,
+    ...product,
+    reviews: {
+      averageRating: product.averageRating ?? 0,
+      count: product.reviewCount,
       items: [],
     },
   };
+}
+
+/**
+ * Backend is currently unavailable — serving the static local catalog
+ * (src/data/mock/products.ts) instead of calling `${API_URL}/products`.
+ * Restore the commented-out implementation below once the API is back.
+ */
+export async function fetchProducts(
+  params: FetchProductsParams = {},
+): Promise<ApiProductListResponse> {
+  const page = params.page ?? 1;
+  const pageSize = params.pageSize ?? PRODUCT_PAGE_SIZE;
+  const sortBy =
+    params.sortBy && isProductSortBy(params.sortBy) ? params.sortBy : undefined;
+
+  let items: ApiProduct[] = [...mockProducts];
+
+  if (params.categorySlug) {
+    items = items.filter(
+      (product) => product.category.slug === params.categorySlug,
+    );
+  }
+
+  if (params.q) {
+    const q = params.q.trim().toLowerCase();
+    if (q) {
+      items = items.filter((product) =>
+        product.name.toLowerCase().includes(q),
+      );
+    }
+  }
+
+  if (params.stoneType?.length) {
+    items = items.filter(
+      (product) => product.stoneType && params.stoneType!.includes(product.stoneType),
+    );
+  }
+
+  if (params.color?.length) {
+    items = items.filter(
+      (product) => product.color && params.color!.includes(product.color),
+    );
+  }
+
+  items = sortProducts(items, sortBy);
+
+  const total = items.length;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const start = (page - 1) * pageSize;
+  const pageItems = items.slice(start, start + pageSize);
+
+  return {
+    items: pageItems,
+    page,
+    pageSize,
+    total,
+    totalPages,
+  };
+
+  // const searchParams = new URLSearchParams();
+  // searchParams.set("page", String(params.page ?? 1));
+  // searchParams.set("pageSize", String(params.pageSize ?? PRODUCT_PAGE_SIZE));
+  //
+  // if (params.sortBy && isProductSortBy(params.sortBy)) {
+  //   searchParams.set("sortBy", params.sortBy);
+  // }
+  // if (params.categorySlug) {
+  //   searchParams.set("categorySlug", params.categorySlug);
+  // }
+  // if (params.q) {
+  //   const q = params.q.trim().slice(0, 100);
+  //   if (q) {
+  //     searchParams.set("q", q);
+  //   }
+  // }
+  // appendQueryList(searchParams, "stoneType", params.stoneType);
+  // appendQueryList(searchParams, "color", params.color);
+  //
+  // const path = `/products?${searchParams.toString()}`;
+  // const response = await fetch(`${API_URL}${path}`, {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   next: { revalidate: 60 },
+  // });
+  //
+  // if (!response.ok) {
+  //   const raw: unknown = await response.json().catch(() => null);
+  //   throw new Error(
+  //     readApiMessage(
+  //       raw,
+  //       "Unable to load products. Please try again later.",
+  //     ),
+  //   );
+  // }
+  //
+  // return response.json() as Promise<ApiProductListResponse>;
+}
+
+/**
+ * Backend is currently unavailable — looking up the product in the static
+ * local catalog instead of calling `${API_URL}/products/:id`.
+ * Restore the commented-out implementation below once the API is back.
+ */
+export async function fetchProductById(
+  id: string,
+): Promise<ApiProductDetail | null> {
+  const product = mockProducts.find(
+    (item) => item.id === id || item.slug === id,
+  );
+
+  if (!product) {
+    return null;
+  }
+
+  return toProductDetail(product);
+
+  // const path = `/products/${id}`;
+  // const response = await fetch(`${API_URL}${path}`, {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   next: { revalidate: 60 },
+  // });
+  //
+  // if (response.status === 404) {
+  //   return null;
+  // }
+  //
+  // if (!response.ok) {
+  //   const raw: unknown = await response.json().catch(() => null);
+  //   throw new Error(
+  //     readApiMessage(
+  //       raw,
+  //       "Unable to load this product. Please try again later.",
+  //     ),
+  //   );
+  // }
+  //
+  // const data = (await response.json()) as ApiProductDetail;
+  // return {
+  //   ...data,
+  //   reviews: data.reviews ?? {
+  //     averageRating: 0,
+  //     count: 0,
+  //     items: [],
+  //   },
+  // };
 }
