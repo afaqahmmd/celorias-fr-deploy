@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BsGrid, BsGrid3X3Gap, BsList } from "react-icons/bs";
@@ -75,6 +75,7 @@ export default function ShopListing({
   const requestIdRef = useRef(0);
   const loadErrorRef = useRef(false);
   const loadNextPageRef = useRef<() => Promise<void>>(async () => {});
+  const hasCommittedListingRef = useRef(false);
   const listingKey = `${categorySlug ?? "all"}|${sortBy}|${searchQuery ?? ""}|${stoneTypes.join(",")}|${stoneColors.join(",")}`;
   const [activeListingKey, setActiveListingKey] = useState(listingKey);
   const [items, setItems] = useState(initialItems);
@@ -89,10 +90,18 @@ export default function ShopListing({
     setPage(initialPage);
     setTotalPages(initialTotalPages);
     setIsLoadingMore(false);
+  }
+
+  useLayoutEffect(() => {
+    if (!hasCommittedListingRef.current) {
+      hasCommittedListingRef.current = true;
+      return;
+    }
+
     isLoadingMoreRef.current = false;
     loadErrorRef.current = false;
     requestIdRef.current += 1;
-  }
+  }, [listingKey]);
 
   useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
@@ -213,7 +222,9 @@ export default function ShopListing({
     }
   }
 
-  loadNextPageRef.current = loadNextPage;
+  useLayoutEffect(() => {
+    loadNextPageRef.current = loadNextPage;
+  });
 
   useEffect(() => {
     if (!hasMore || isLoadingMore) {
