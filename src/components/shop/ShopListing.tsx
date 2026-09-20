@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { BsGrid, BsGrid3X3Gap, BsList } from "react-icons/bs";
 import { FiChevronDown } from "react-icons/fi";
 import ProductCard from "@/components/shop/ProductCard";
+import ProductCardSkeleton from "@/components/shop/ProductCardSkeleton";
 import ShopFilters from "@/components/shop/ShopFilters";
 import { loadProductsPage } from "@/actions/products";
 import { loadSearchPage } from "@/actions/search";
@@ -69,6 +70,11 @@ export default function ShopListing({
 }: ShopListingProps) {
   const router = useRouter();
   const sortDetailsRef = useRef<HTMLDetailsElement>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const isLoadingMoreRef = useRef(false);
+  const requestIdRef = useRef(0);
+  const loadErrorRef = useRef(false);
+  const loadNextPageRef = useRef<() => Promise<void>>(async () => {});
   const listingKey = `${categorySlug ?? "all"}|${sortBy}|${searchQuery ?? ""}|${stoneTypes.join(",")}|${stoneColors.join(",")}`;
   const [activeListingKey, setActiveListingKey] = useState(listingKey);
   const [items, setItems] = useState(initialItems);
@@ -82,6 +88,10 @@ export default function ShopListing({
     setItems(initialItems);
     setPage(initialPage);
     setTotalPages(initialTotalPages);
+    setIsLoadingMore(false);
+    isLoadingMoreRef.current = false;
+    loadErrorRef.current = false;
+    requestIdRef.current += 1;
   }
 
   useEffect(() => {
@@ -96,6 +106,8 @@ export default function ShopListing({
   }, []);
 
   const hasMore = page < totalPages && total > 0;
+  const remaining = Math.max(0, total - items.length);
+  const skeletonCount = isLoadingMore ? Math.min(pageSize, remaining) : 0;
   const activeFilterCount =
     (categorySlug ? 1 : 0) + stoneTypes.length + stoneColors.length;
   const currentSortLabel =
@@ -149,11 +161,13 @@ export default function ShopListing({
     sortDetailsRef.current?.removeAttribute("open");
   }
 
-  async function handleLoadMore() {
-    if (isLoadingMore || !hasMore) {
+  async function loadNextPage() {
+    if (isLoadingMoreRef.current || !hasMore) {
       return;
     }
 
+    const requestId = requestIdRef.current;
+    isLoadingMoreRef.current = true;
     setIsLoadingMore(true);
 
     try {
@@ -171,19 +185,64 @@ export default function ShopListing({
             stoneType: stoneTypes.length > 0 ? stoneTypes : undefined,
             color: stoneColors.length > 0 ? stoneColors : undefined,
           });
+
+      if (requestId !== requestIdRef.current) {
+        return;
+      }
+
+      loadErrorRef.current = false;
       setItems((current) => [...current, ...response.items]);
       setPage(response.page);
       setTotalPages(response.totalPages);
     } catch (error) {
+      if (requestId !== requestIdRef.current) {
+        return;
+      }
+
+      loadErrorRef.current = true;
       console.error("Failed to load more products:", error);
       notifyCaughtError(
         error,
         "Unable to load more products. Please try again.",
       );
     } finally {
-      setIsLoadingMore(false);
+      if (requestId === requestIdRef.current) {
+        isLoadingMoreRef.current = false;
+        setIsLoadingMore(false);
+      }
     }
   }
+
+  loadNextPageRef.current = loadNextPage;
+
+  useEffect(() => {
+    if (!hasMore || isLoadingMore) {
+      return;
+    }
+
+    const sentinel = sentinelRef.current;
+    if (!sentinel) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const isIntersecting = entries.some((entry) => entry.isIntersecting);
+        if (!isIntersecting) {
+          loadErrorRef.current = false;
+          return;
+        }
+        if (loadErrorRef.current) {
+          return;
+        }
+        void loadNextPageRef.current();
+      },
+      { rootMargin: "200px" },
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [hasMore, isLoadingMore, items.length, listingKey]);
 
   return (
     <section className="bg-white py-10 md:py-7">
@@ -324,25 +383,28 @@ export default function ShopListing({
                   : "No products found in this collection."}
               </p>
             ) : (
-              <div className={GRID_CLASS[gridColumns]}>
+              <div
+                className={GRID_CLASS[gridColumns]}
+                aria-busy={isLoadingMore}
+              >
                 {items.map((product) => (
                   <ProductCard key={product.id} product={product} />
+                ))}
+                {Array.from({ length: skeletonCount }).map((_, index) => (
+                  <ProductCardSkeleton key={`product-skeleton-${index}`} />
                 ))}
               </div>
             )}
 
-            {hasMore && (
-              <div className="mt-12 text-center">
-                <button
-                  type="button"
-                  onClick={handleLoadMore}
-                  disabled={isLoadingMore}
-                  className="inline-block rounded-sm bg-rose px-7 py-3.5 font-serif text-sm tracking-wide text-white transition-colors hover:bg-dark-green disabled:cursor-not-allowed disabled:opacity-70"
-                >
-                  {isLoadingMore ? "Loading..." : "Load More"}
-                </button>
-              </div>
-            )}
+            {isLoadingMore ? (
+              <p className="sr-only" aria-live="polite">
+                Loading more products
+              </p>
+            ) : null}
+
+            {hasMore ? (
+              <div ref={sentinelRef} className="h-px w-full" aria-hidden="true" />
+            ) : null}
           </div>
         </div>
       </div>

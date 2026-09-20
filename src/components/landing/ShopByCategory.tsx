@@ -17,7 +17,7 @@ export default function ShopByCategory({
   items,
 }: ShopByCategoryProps) {
   return (
-    <section className="bg-cream py-16 md:py-11">
+    <section className="overflow-x-hidden bg-cream py-16 md:py-11">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex flex-col items-center text-center">
           <SectionBadge label={badge} />
@@ -26,12 +26,12 @@ export default function ShopByCategory({
           </h2>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-start justify-center gap-x-5 gap-y-8 sm:gap-x-8 sm:gap-y-10 md:mt-9 md:gap-x-10 lg:flex-nowrap lg:gap-x-8 xl:gap-x-14">
+        <div className="-mx-6 mt-12 flex min-w-0 snap-x snap-proximity gap-x-4 overflow-x-auto overscroll-x-contain scroll-smooth px-6 pb-1 scrollbar-none sm:gap-x-5 md:mx-0 md:mt-9 md:flex-wrap md:items-start md:justify-center md:gap-x-10 md:gap-y-10 md:px-0 md:pb-0 lg:flex-nowrap lg:justify-start lg:gap-x-8 xl:gap-x-14">
           {items.map((category) => (
             <Link
               key={category.id}
               href={category.href}
-              className="group flex w-[42%] max-w-36 flex-col items-center sm:w-44 sm:max-w-none md:w-50"
+              className="group flex w-24 shrink-0 snap-start flex-col items-center md:w-50 md:snap-align-none lg:snap-start"
             >
               <div className="relative aspect-square w-full overflow-hidden rounded-full">
                 <Image
@@ -39,15 +39,15 @@ export default function ShopByCategory({
                   alt={category.name}
                   fill
                   className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                  sizes="(max-width: 640px) 144px, (max-width: 768px) 176px, 208px"
+                  sizes="(max-width: 767px) 96px, 208px"
                 />
-                <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                  <span className="flex h-[50%] w-[50%] items-center justify-center rounded-full bg-dark-green/85 px-2 text-center font-serif text-[13px] whitespace-nowrap text-white opacity-100 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 md:text-sm">
+                <div className="pointer-events-none absolute inset-0 hidden items-center justify-center md:flex">
+                  <span className="flex h-[50%] w-[50%] items-center justify-center rounded-full bg-dark-green/85 px-2 text-center font-serif text-sm whitespace-nowrap text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     View
                   </span>
                 </div>
               </div>
-              <span className="mt-4 text-center font-serif text-[15px] text-rose md:mt-5 md:text-lg">
+              <span className="mt-3 text-center font-serif text-[13px] text-rose md:mt-5 md:text-lg">
                 {category.name}
               </span>
             </Link>
