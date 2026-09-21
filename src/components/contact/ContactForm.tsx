@@ -53,9 +53,13 @@ export default function ContactForm() {
 
   return (
     <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-2 lg:gap-10">
-      <div className="flex flex-col justify-center rounded-2xl bg-[#FAF6F0] px-8 py-10 shadow-[0_12px_40px_rgba(68,57,52,0.08)] md:px-7 lg:px-14">
-        <div className="flex justify-center">
-          <CeloriaLogo height={180} width={600} />
+      <div className="flex min-w-0 flex-col justify-center rounded-2xl bg-[#FAF6F0] px-5 py-8 shadow-[0_12px_40px_rgba(68,57,52,0.08)] sm:px-8 sm:py-10 md:px-7 lg:px-14">
+        <div className="flex w-full min-w-0 justify-center">
+          <CeloriaLogo
+            height={180}
+            width={600}
+            className="!h-auto !w-full !max-w-full object-contain"
+          />
         </div>
         <h3 className="mt-4 text-sm font-semibold tracking-[0.14em] text-rose uppercase md:text-base">
           The Celorias Standard
