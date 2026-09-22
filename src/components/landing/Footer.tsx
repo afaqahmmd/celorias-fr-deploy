@@ -76,7 +76,7 @@ function ContactRow({
 }
 
 const paymentIconSlot =
-  "inline-flex h-8 w-18 shrink-0 items-center justify-center";
+  "inline-flex h-6 w-10 shrink-0 items-center justify-center sm:h-8 sm:w-18";
 const paymentIconImage = "h-full w-full object-contain text-white";
 
 function MastercardBadge() {
@@ -242,7 +242,7 @@ export default function Footer({
       <div className="bg-dark-green">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-6 py-4 lg:px-10">
           <p className="text-[13px] text-white/90">{paymentLabel}</p>
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex w-full flex-nowrap items-center justify-between gap-1.5 sm:w-auto sm:justify-start sm:gap-4">
             <MastercardBadge />
             <VisaBadge />
             <PayPalBadge />
