@@ -2,14 +2,9 @@
 
 import Image from "next/image";
 import { FormEvent, useState, type ReactNode } from "react";
-import {
-  FaApplePay,
-  FaFacebook,
-  FaInstagram,
-  FaTiktok,
-} from "react-icons/fa";
+import { FaApplePay, FaFacebook, FaInstagram, FaTiktok } from "react-icons/fa";
 import { SiVisa } from "react-icons/si";
-import { FiArrowRight, FiMail, FiMapPin, FiPhone } from "react-icons/fi";
+import { FiArrowRight, FiMail, FiPhone } from "react-icons/fi";
 import CeloriaLogo from "@/components/ui/CeloriaLogo";
 import { siteAssets } from "@/config/assets";
 import type { FooterLink, SocialLink } from "@/types/landing";
