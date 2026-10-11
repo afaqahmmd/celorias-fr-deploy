@@ -5,11 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import StarRating from "@/components/ui/StarRating";
-import {
-  formatProductPrice,
-  getProductHref,
-  getProductStarRating,
-} from "@/lib/catalog";
+import { getProductHref, getProductStarRating } from "@/lib/catalog";
 import { useRecentlyViewedStore } from "@/stores/recentlyViewed";
 import type { ProductPreview } from "@/types/api";
 
@@ -112,14 +108,16 @@ export default function RecentlyViewed({
                 <h3 className="mt-4 truncate font-serif text-sm text-foreground md:text-[15px]">
                   {product.name}
                 </h3>
-                <p className="mt-1 text-sm text-foreground">
-                  {formatProductPrice(product.price)}
+                <p
+                  className={`mt-1 text-sm ${
+                    product.stock === 0 ? "text-text-muted" : "text-[#2e7d32]"
+                  }`}
+                >
+                  {product.stock === 0 ? "Out of stock" : "In stock"}
                 </p>
-                {starRating ? (
-                  <div className="mt-2">
-                    <StarRating rating={starRating} variant="onLight" />
-                  </div>
-                ) : null}
+                <div className="mt-2">
+                  <StarRating rating={starRating ?? 0} variant="onLight" />
+                </div>
               </article>
             </Link>
           );

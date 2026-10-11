@@ -4,10 +4,9 @@ import Image from "next/image";
 import { FormEvent, useState, type ReactNode } from "react";
 import {
   FaApplePay,
+  FaFacebook,
   FaInstagram,
-  FaPinterest,
   FaTiktok,
-  FaYoutube,
 } from "react-icons/fa";
 import { SiVisa } from "react-icons/si";
 import { FiArrowRight, FiMail, FiMapPin, FiPhone } from "react-icons/fi";
@@ -31,8 +30,7 @@ interface FooterProps {
 const socialIcons = {
   instagram: FaInstagram,
   tiktok: FaTiktok,
-  youtube: FaYoutube,
-  pinterest: FaPinterest,
+  facebook: FaFacebook,
 } as const;
 
 function FooterLinkList({ links }: { links: FooterLink[] }) {
@@ -102,15 +100,21 @@ function VisaBadge() {
   );
 }
 
-function PayPalBadge() {
+function EasypaisaBadge() {
   return (
-    <span className={paymentIconSlot}>
+    <span className="relative inline-block h-4 w-auto shrink-0 aspect-[122/26] overflow-hidden">
       <Image
-        src={siteAssets.paypal}
-        alt="PayPal"
-        width={120}
-        height={32}
-        className={paymentIconImage}
+        src={siteAssets.easypaisa}
+        alt="Easypaisa"
+        width={200}
+        height={200}
+        className="absolute max-w-none"
+        style={{
+          width: "163.934%",
+          height: "769.231%",
+          left: "-31.148%",
+          top: "-326.923%",
+        }}
       />
     </span>
   );
@@ -157,29 +161,42 @@ export default function Footer({
   return (
     <footer className="bg-cream">
       <div className="mx-auto max-w-7xl px-6 pt-12 pb-8 lg:px-10">
-        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+        <div className="grid grid-cols-1 items-start gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:items-stretch lg:gap-8">
           <div>
-            <CeloriaLogo height={68} width={300} />
-            <p className="mt-4 max-w-70 text-[13px] leading-relaxed text-text-muted">
+            <CeloriaLogo
+              height={140}
+              width={280}
+              className="!h-auto !w-full !max-w-70"
+            />
+            <p className="mt-4 max-w-70 text-[13px] leading-relaxed text-black">
               {tagline}
             </p>
 
-            <form onSubmit={handleSubscribe} className="relative mt-5 max-w-70">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter Your email"
-                required
-                className="w-full rounded-full border border-rose/70 bg-white py-2.5 pr-14 pl-5 text-sm text-foreground outline-none placeholder:text-rose/60 focus:border-rose"
-              />
-              <button
-                type="submit"
-                aria-label="Subscribe to newsletter"
-                className="absolute top-1/2 right-1 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-dark-green text-white transition-colors hover:bg-dark-green/90"
+            <form onSubmit={handleSubscribe} className="mt-5 max-w-70">
+              <label
+                htmlFor="newsletter-email"
+                className="text-[13px] text-black"
               >
-                <FiArrowRight className="h-4 w-4" />
-              </button>
+                Subscribe to our newsletter
+              </label>
+              <div className="relative mt-3">
+                <input
+                  id="newsletter-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter Your email"
+                  required
+                  className="w-full rounded-full border border-rose/70 bg-transparent py-2.5 pr-12 pl-5 text-sm text-foreground outline-none placeholder:text-rose/60 focus:border-rose"
+                />
+                <button
+                  type="submit"
+                  aria-label="Subscribe to newsletter"
+                  className="absolute top-1/2 right-1.5 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-dark-green text-white transition-colors hover:bg-dark-green/90"
+                >
+                  <FiArrowRight className="h-4 w-4" />
+                </button>
+              </div>
             </form>
           </div>
 
@@ -197,17 +214,17 @@ export default function Footer({
             <FooterLinkList links={companyLinks} />
           </div>
 
-          <div>
+          <div className="flex flex-col lg:h-full">
             <h3 className="font-serif text-[13px] tracking-[0.12em] text-foreground uppercase">
               Contact Information
             </h3>
             <div className="mt-5 space-y-3.5">
               <ContactRow icon={FiPhone}>{contact.phone}</ContactRow>
               <ContactRow icon={FiMail}>{contact.email}</ContactRow>
-              <ContactRow icon={FiMapPin}>{contact.address}</ContactRow>
+              {/* <ContactRow icon={FiMapPin}>{contact.address}</ContactRow> */}
             </div>
 
-            <div className="mt-6">
+            <div className="mt-6 lg:mt-auto lg:pt-6">
               <p className="text-[11px] tracking-wider text-foreground uppercase">
                 Socials :
               </p>
@@ -245,7 +262,7 @@ export default function Footer({
           <div className="flex w-full flex-nowrap items-center justify-between gap-1.5 sm:w-auto sm:justify-start sm:gap-4">
             <MastercardBadge />
             <VisaBadge />
-            <PayPalBadge />
+            <EasypaisaBadge />
             <JazzCashBadge />
             <ApplePayBadge />
           </div>

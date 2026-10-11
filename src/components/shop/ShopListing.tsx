@@ -3,7 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { BsGrid, BsGrid3X3Gap, BsList } from "react-icons/bs";
+import { BsGrid, BsGrid3X3Gap } from "react-icons/bs";
 import { FiChevronDown } from "react-icons/fi";
 import ProductCard from "@/components/shop/ProductCard";
 import ProductCardSkeleton from "@/components/shop/ProductCardSkeleton";
@@ -24,7 +24,6 @@ const VIEW_OPTIONS: {
 }[] = [
   { cols: 3, label: "3 column grid", icon: BsGrid },
   { cols: 4, label: "4 column grid", icon: BsGrid3X3Gap },
-  { cols: 5, label: "5 column grid", icon: BsList },
 ];
 
 const GRID_CLASS: Record<GridColumns, string> = {
@@ -272,8 +271,8 @@ export default function ShopListing({
           </div>
         ) : null}
 
-        <div className="relative z-40 mb-8 flex flex-col gap-4 overflow-visible sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-          <div className="flex items-center justify-between gap-4">
+        <div className="relative z-40 mb-8 grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-4 overflow-visible lg:grid-cols-[1fr_auto_1fr]">
+          <div className="flex items-center gap-4">
             <button
               type="button"
               aria-expanded={filtersOpen}
@@ -314,14 +313,14 @@ export default function ShopListing({
                 );
               })}
             </div>
-
-            <p className="text-sm text-text-muted">
-              {`${total} ${total === 1 ? "Product" : "Products"}`}
-            </p>
           </div>
 
+          <p className="text-sm text-text-muted lg:col-start-2 lg:justify-self-center">
+            {`${total} ${total === 1 ? "Product" : "Products"}`}
+          </p>
+
           {searchQuery ? null : (
-            <div className="relative z-50 flex w-full items-center gap-2 text-sm sm:w-auto">
+            <div className="relative z-50 col-span-2 flex w-full items-center gap-2 text-sm lg:col-span-1 lg:col-start-3 lg:w-auto lg:justify-self-end">
               <span className="shrink-0 text-text-muted">Sort By</span>
               <details ref={sortDetailsRef} className="relative min-w-0 flex-1 sm:flex-none">
                 <summary className="flex min-h-11 w-full cursor-pointer list-none items-center justify-between gap-2 border border-gray-200 bg-white px-3 py-2 outline-none hover:border-rose sm:min-h-0 sm:w-auto [&::-webkit-details-marker]:hidden">

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { FiX } from "react-icons/fi";
+import { IoMdCart } from "react-icons/io";
 import CartLineItem from "@/components/cart/CartLineItem";
 import type { ApiCart, ApiCartItem } from "@/types/api";
 
@@ -77,8 +78,9 @@ export default function CartDrawer({
         <div className="flex items-center justify-between border-b border-gray-200 px-6 py-5">
           <h2
             id="cart-drawer-title"
-            className="font-serif text-2xl text-foreground"
+            className="flex items-center gap-2 font-serif text-2xl text-foreground"
           >
+            <IoMdCart className="h-6 w-6" aria-hidden="true" />
             Cart
           </h2>
           <button

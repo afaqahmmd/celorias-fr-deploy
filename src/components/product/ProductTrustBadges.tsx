@@ -1,36 +1,30 @@
-import { FiShield, FiTruck, FiUsers } from "react-icons/fi";
+import { FiShield, FiSmile, FiTruck } from "react-icons/fi";
+import type { IconType } from "react-icons";
 
-const BADGES = [
+const BADGES: { label: string; Icon: IconType }[] = [
+  { label: "Free Shipping and exchanges", Icon: FiTruck },
   {
-    icon: FiTruck,
-    label: "Free Shipping and exchanges",
-  },
-  {
-    icon: FiShield,
     label: "Flexible and Secure Payment, Pay on Delivery",
+    Icon: FiShield,
   },
-  {
-    icon: FiUsers,
-    label: "600,000 Happy Customers",
-  },
-] as const;
+  { label: "600,000 Happy Customers", Icon: FiSmile },
+];
 
 export default function ProductTrustBadges() {
   return (
-    <ul className="mt-8 space-y-3.5">
-      {BADGES.map((badge) => {
-        const Icon = badge.icon;
-
-        return (
-          <li
-            key={badge.label}
-            className="flex items-center gap-3 text-sm text-text-muted"
-          >
-            <Icon className="h-[18px] w-[18px] shrink-0" aria-hidden="true" />
-            <span>{badge.label}</span>
-          </li>
-        );
-      })}
+    <ul className="mt-6 space-y-3">
+      {BADGES.map(({ label, Icon }) => (
+        <li
+          key={label}
+          className="flex items-start gap-2.5 text-sm text-text-muted"
+        >
+          <Icon
+            className="mt-0.5 h-4 w-4 shrink-0 text-foreground"
+            aria-hidden="true"
+          />
+          <span>{label}</span>
+        </li>
+      ))}
     </ul>
   );
 }

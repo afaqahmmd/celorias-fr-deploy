@@ -2,7 +2,6 @@ import Link from "next/link";
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductPurchase from "@/components/product/ProductPurchase";
 import ProductTabs from "@/components/product/ProductTabs";
-import ProductTrustBadges from "@/components/product/ProductTrustBadges";
 import RecentlyViewed from "@/components/product/RecentlyViewed";
 import ShopHero from "@/components/shop/ShopHero";
 import SiteChrome from "@/components/layout/SiteChrome";
@@ -52,33 +51,25 @@ export default function ProductDetailView({
                 </Link>
               </li>
               <li aria-hidden="true">/</li>
-              <li className="hidden md:inline">
+              <li>
                 <Link href="/" className="hover:text-foreground">
                   Home
                 </Link>
               </li>
-              <li aria-hidden="true" className="hidden md:inline">
-                /
-              </li>
-              <li className="hidden md:inline">
+              <li aria-hidden="true">/</li>
+              <li>
                 <Link href="/products" className="hover:text-foreground">
                   Category
                 </Link>
               </li>
-              <li aria-hidden="true" className="hidden md:inline">
-                /
-              </li>
-              <li className="hidden md:inline">
+              <li aria-hidden="true">/</li>
+              <li>
                 <Link href={categoryHref} className="hover:text-foreground">
                   {product.category.name}
                 </Link>
               </li>
-              <li aria-hidden="true" className="hidden md:inline">
-                /
-              </li>
-              <li className="min-w-0 truncate text-foreground">
-                {product.name}
-              </li>
+              <li aria-hidden="true">/</li>
+              <li className="text-foreground">{product.name}</li>
             </ol>
           </nav>
 
@@ -88,8 +79,8 @@ export default function ProductDetailView({
                 key={product.id}
                 name={product.name}
                 images={product.images}
+                similarProducts={relatedProducts}
               />
-              <ProductTrustBadges />
             </div>
 
             <div className="lg:w-[448px]">

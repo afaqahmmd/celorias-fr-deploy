@@ -45,7 +45,7 @@ export interface FooterLink {
 }
 
 export interface SocialLink {
-  platform: "instagram" | "tiktok" | "youtube" | "pinterest";
+  platform: "instagram" | "tiktok" | "facebook";
   href: string;
 }
 

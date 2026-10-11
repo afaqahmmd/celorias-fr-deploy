@@ -30,6 +30,60 @@ function formatReviewDate(value: string): string {
   });
 }
 
+const LIST_LINE = /^([-*•]|\d+[.)])\s+(\S.*)$/;
+
+function DescriptionContent({ description }: { description: string }) {
+  const blocks: Array<
+    { type: "paragraph"; text: string } | { type: "list"; items: string[] }
+  > = [];
+  let listItems: string[] | null = null;
+
+  for (const rawLine of description.split(/\n/)) {
+    const line = rawLine.trim();
+    if (!line) {
+      listItems = null;
+      continue;
+    }
+
+    const listMatch = line.match(LIST_LINE);
+    if (listMatch) {
+      if (!listItems) {
+        listItems = [];
+        blocks.push({ type: "list", items: listItems });
+      }
+      listItems.push(listMatch[2]);
+      continue;
+    }
+
+    listItems = null;
+    blocks.push({ type: "paragraph", text: line });
+  }
+
+  if (blocks.length === 0) {
+    return (
+      <p className="text-sm leading-7 text-text-muted">
+        No description is available for this product.
+      </p>
+    );
+  }
+
+  return (
+    <div className="space-y-4 text-sm leading-7 text-text-muted">
+      {blocks.map((block, index) =>
+        block.type === "paragraph" ? (
+          <p key={`paragraph-${index}`}>{block.text}</p>
+        ) : (
+          <ul key={`list-${index}`} className="list-disc space-y-2 pl-5">
+            {block.items.map((item, itemIndex) => (
+              <li key={`${item}-${itemIndex}`}>{item}</li>
+            ))}
+          </ul>
+        ),
+      )}
+    </div>
+  );
+}
+
 function formatInfoValue(value: unknown): string {
   if (value == null) {
     return "—";
@@ -95,10 +149,6 @@ export default function ProductTabs({ product }: ProductTabsProps) {
   const [activeTab, setActiveTab] = useState<TabId>("description");
   const reviewCount = product.reviews?.count ?? 0;
   const reviews = product.reviews?.items ?? [];
-  const descriptionParagraphs = (product.description ?? "")
-    .split(/\n+/)
-    .map((part) => part.trim())
-    .filter(Boolean);
 
   const tabs: { id: TabId; label: string }[] = [
     { id: "description", label: "Product Description" },
@@ -137,15 +187,7 @@ export default function ProductTabs({ product }: ProductTabsProps) {
 
       <div className="mt-8 max-w-4xl" role="tabpanel">
         {activeTab === "description" && (
-          <div className="space-y-4 text-sm leading-7 text-text-muted">
-            {descriptionParagraphs.length > 0 ? (
-              descriptionParagraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))
-            ) : (
-              <p>No description is available for this product.</p>
-            )}
-          </div>
+          <DescriptionContent description={product.description ?? ""} />
         )}
 
         {activeTab === "additional" && (

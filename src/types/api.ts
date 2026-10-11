@@ -61,8 +61,7 @@ export interface ApiProduct {
   averageRating?: number;
 }
 
-export interface ApiProductDetail
-  extends Omit<ApiProduct, "reviewCount"> {
+export interface ApiProductDetail extends Omit<ApiProduct, "reviewCount"> {
   reviews: ApiProductReviews;
 }
 
