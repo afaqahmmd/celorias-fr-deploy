@@ -5,11 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import StarRating from "@/components/ui/StarRating";
-import {
-  formatProductPrice,
-  getProductHref,
-  getProductStarRating,
-} from "@/lib/catalog";
+import { getProductHref, getProductStarRating } from "@/lib/catalog";
 import { useRecentlyViewedStore } from "@/stores/recentlyViewed";
 import type { ProductPreview } from "@/types/api";
 
@@ -112,14 +108,18 @@ export default function RecentlyViewed({
                 <h3 className="mt-4 truncate font-serif text-sm text-foreground md:text-[15px]">
                   {product.name}
                 </h3>
-                <p className="mt-1 text-sm text-foreground">
-                  {formatProductPrice(product.price)}
+                <p
+                  className={`mt-1 text-sm ${
+                    (product.stock ?? 1) === 0
+                      ? "text-text-muted"
+                      : "text-[#2e7d32]"
+                  }`}
+                >
+                  {(product.stock ?? 1) === 0 ? "Out of stock" : "In stock"}
                 </p>
-                {starRating ? (
-                  <div className="mt-2">
-                    <StarRating rating={starRating} variant="onLight" />
-                  </div>
-                ) : null}
+                <div className="mt-2">
+                  <StarRating rating={starRating ?? 0} variant="onLight" />
+                </div>
               </article>
             </Link>
           );
@@ -127,25 +127,23 @@ export default function RecentlyViewed({
       </div>
 
       {showNav ? (
-        <div className="mt-10 flex justify-center md:mt-12">
-          <div className="inline-flex items-center rounded-full bg-[#2c2c2c] px-1.5 py-1.5">
-            <button
-              type="button"
-              aria-label="Previous recently viewed products"
-              onClick={() => scrollByCard(-1)}
-              className="flex h-10 w-10 items-center justify-center text-white transition-opacity hover:opacity-80"
-            >
-              <FiChevronLeft className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              aria-label="Next recently viewed products"
-              onClick={() => scrollByCard(1)}
-              className="flex h-10 w-10 items-center justify-center text-white transition-opacity hover:opacity-80"
-            >
-              <FiChevronRight className="h-4 w-4" />
-            </button>
-          </div>
+        <div className="mt-10 flex justify-center gap-3 md:mt-12">
+          <button
+            type="button"
+            aria-label="Previous recently viewed products"
+            onClick={() => scrollByCard(-1)}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-rose-light/80 text-foreground shadow-md transition-transform hover:scale-105 md:h-10 md:w-10"
+          >
+            <FiChevronLeft className="h-5 w-5 text-white" />
+          </button>
+          <button
+            type="button"
+            aria-label="Next recently viewed products"
+            onClick={() => scrollByCard(1)}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-rose-light/80 text-foreground shadow-md transition-transform hover:scale-105 md:h-10 md:w-10"
+          >
+            <FiChevronRight className="h-5 w-5 text-white" />
+          </button>
         </div>
       ) : null}
     </section>

@@ -39,6 +39,7 @@ export default async function CategoryProductsPage({
       stoneTypeParam={query.stoneType}
       stoneColorParam={query.stoneColor}
       gridParam={query.grid}
+      qParam={query.q}
     />
   );
 }

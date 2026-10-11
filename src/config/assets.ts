@@ -5,7 +5,7 @@ export const siteAssets = {
   heroImages: ["/images/hero_section.jpg", "/images/hero_section2.jpg"],
   productBg: "/images/product_bg.jpg",
   testimonialsBackground: "/images/testimonals.png",
-  paypal: "/images/paypal.png",
+  easypaisa: "/images/easypaisa-logo.png",
   jazzcash: "/images/jazzcash.png",
   fairPolicy: "/images/fair_policy.png",
   transparency: "/images/transprancy.png",

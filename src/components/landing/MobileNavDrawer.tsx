@@ -9,6 +9,7 @@ import type { NavLink } from "@/types/landing";
 interface MobileNavDrawerProps {
   navLinks: NavLink[];
   onClose: () => void;
+  onSearch: () => void;
 }
 
 const actionButtonClass =
@@ -17,6 +18,7 @@ const actionButtonClass =
 export default function MobileNavDrawer({
   navLinks,
   onClose,
+  onSearch,
 }: MobileNavDrawerProps) {
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -49,7 +51,7 @@ export default function MobileNavDrawer({
         role="dialog"
         aria-modal="true"
         aria-labelledby="mobile-nav-title"
-        className="absolute inset-y-0 left-0 flex w-full max-w-xs flex-col bg-[#F7EFEB] shadow-xl"
+        className="absolute inset-y-0 left-0 flex w-full max-w-xs flex-col bg-cream shadow-xl"
       >
         <div className="flex items-center justify-between border-b border-rose/20 px-6 py-4">
           <h2
@@ -85,7 +87,12 @@ export default function MobileNavDrawer({
         </nav>
 
         <div className="border-t border-rose/20 py-2">
-          <button type="button" aria-label="Search" className={actionButtonClass}>
+          <button
+            type="button"
+            aria-label="Search"
+            className={actionButtonClass}
+            onClick={onSearch}
+          >
             <IoIosSearch className="h-5 w-5" />
             Search
           </button>

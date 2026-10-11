@@ -29,18 +29,18 @@ function FeatureIcon({ icon, title }: { icon: string; title: string }) {
 
 export default function FeaturesBar({ features }: FeaturesBarProps) {
   return (
-    <section className="bg-[#F2E3DF] py-8 md:py-10">
+    <section className="bg-cream-light py-8 md:py-10">
       <div className="mx-auto flex max-w-7xl flex-col gap-5 px-6 sm:flex-row sm:flex-wrap sm:justify-between lg:flex-nowrap lg:px-10 xl:px-12">
         {features.map((feature) => (
           <div key={feature.title} className="flex items-center gap-4">
-            <div className="shrink-0 text-[#443934]">
+            <div className="shrink-0 text-foreground">
               <FeatureIcon icon={feature.icon} title={feature.title} />
             </div>
             <div>
-              <p className="font-serif text-xl leading-snug text-[#443934]">
+              <p className="font-serif text-xl leading-snug text-foreground">
                 {feature.title}
               </p>
-              <p className="mt-0.5 text-sm leading-relaxed text-[#847875]">
+              <p className="mt-0.5 text-sm leading-relaxed text-text-muted">
                 {feature.subtitle}
               </p>
             </div>

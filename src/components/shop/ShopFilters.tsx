@@ -26,7 +26,16 @@ export default function ShopFilters({
   onToggleStoneColor,
   onClearAll,
 }: ShopFiltersProps) {
-  const [openSections, setOpenSections] = useState<string[]>([]);
+  const [openSections, setOpenSections] = useState<string[]>(() => {
+    const sections: string[] = [];
+    if (stoneTypes.length > 0) {
+      sections.push("stone-type");
+    }
+    if (stoneColors.length > 0) {
+      sections.push("stone-color");
+    }
+    return sections;
+  });
 
   function toggleSection(id: string) {
     setOpenSections((current) =>

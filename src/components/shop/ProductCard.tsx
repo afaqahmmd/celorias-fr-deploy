@@ -18,9 +18,14 @@ import { useCartStore } from "@/stores/cart";
 import { useWishlistStore } from "@/stores/wishlist";
 import type { ApiProduct } from "@/types/api";
 
+type CartStatus = "idle" | "loading" | "added" | "error";
+
 interface ProductCardProps {
   product: ApiProduct;
 }
+
+const actionButtonClass =
+  "flex h-10 w-10 items-center justify-center rounded-full bg-[#8E5C63] text-white shadow-md transition-colors hover:bg-dark-green cursor-pointer";
 
 export default function ProductCard({ product }: ProductCardProps) {
   const imageSrc = product.images[0] ?? "/images/placeholder-product.svg";
@@ -29,15 +34,14 @@ export default function ProductCard({ product }: ProductCardProps) {
     product.averageRating,
     product.reviewCount,
   );
-  const [cartStatus, setCartStatus] = useState<
-    "idle" | "loading" | "added" | "error"
-  >("idle");
+  const [cartStatus, setCartStatus] = useState<CartStatus>("idle");
   const productIds = useWishlistStore((state) => state.productIds);
   const toggleWishlist = useWishlistStore((state) => state.toggle);
   const isWishlisted = productIds.includes(product.id);
+  const isOutOfStock = product.stock <= 0;
 
   async function handleAddToCart() {
-    if (cartStatus === "loading") {
+    if (cartStatus === "loading" || isOutOfStock) {
       return;
     }
 
@@ -68,52 +72,33 @@ export default function ProductCard({ product }: ProductCardProps) {
           />
         </Link>
 
-        <div className="absolute inset-x-0 bottom-3 z-10 flex items-center justify-center gap-3 md:pointer-events-none md:inset-0 md:bottom-auto md:bg-black/25 md:opacity-0 md:transition-opacity md:duration-300 md:group-hover:pointer-events-auto md:group-hover:opacity-100">
-          <div className="flex items-center justify-center gap-3 md:absolute md:inset-x-0 md:bottom-4">
-            <Link
-              href={productHref}
-              aria-label={`View ${product.name}`}
-              className="hidden h-10 w-10 items-center justify-center rounded-full bg-white text-foreground shadow-md transition-colors hover:bg-rose hover:text-white md:flex"
-            >
-              <FiEye className="h-4 w-4" />
-            </Link>
-            <button
-              type="button"
-              aria-label={
-                isWishlisted
-                  ? `Remove ${product.name} from wishlist`
-                  : `Add ${product.name} to wishlist`
-              }
-              aria-pressed={isWishlisted}
-              onClick={() => toggleWishlist(product.id)}
-              className={`flex h-10 w-10 items-center justify-center rounded-full shadow-md transition-colors ${
-                isWishlisted
-                  ? "bg-rose text-white"
-                  : "bg-white text-foreground hover:bg-rose hover:text-white"
-              }`}
-            >
-              <IoIosHeart className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              aria-label={`Add ${product.name} to cart`}
-              disabled={cartStatus === "loading"}
-              onClick={handleAddToCart}
-              className={`flex h-10 w-10 items-center justify-center rounded-full shadow-md transition-colors ${
-                cartStatus === "added"
-                  ? "bg-dark-green text-white"
-                  : cartStatus === "error"
-                    ? "bg-rose-dark text-white"
-                    : "bg-white text-foreground hover:bg-rose hover:text-white"
-              }`}
-            >
-              <IoMdCart className="h-4 w-4" />
-            </button>
+        <div className="pointer-events-none absolute inset-0 z-10 hidden bg-foreground/25 opacity-0 transition-opacity duration-300 group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 md:block">
+          <div className="absolute inset-x-0 bottom-4 flex items-center justify-center gap-3">
+            <ProductActions
+              productName={product.name}
+              productHref={productHref}
+              isWishlisted={isWishlisted}
+              cartStatus={cartStatus}
+              isOutOfStock={isOutOfStock}
+              onToggleWishlist={() => toggleWishlist(product.id)}
+              onAddToCart={handleAddToCart}
+            />
           </div>
         </div>
 
+        <div className="absolute inset-x-0 bottom-3 z-10 flex items-center justify-center gap-3 md:hidden">
+          <ProductActions
+            productName={product.name}
+            isWishlisted={isWishlisted}
+            cartStatus={cartStatus}
+            isOutOfStock={isOutOfStock}
+            onToggleWishlist={() => toggleWishlist(product.id)}
+            onAddToCart={handleAddToCart}
+          />
+        </div>
+
         {product.isFeatured && (
-          <span className="absolute top-3 right-3 z-10 bg-black px-2 py-1 text-[10px] font-medium tracking-wide text-white uppercase">
+          <span className="absolute top-3 right-3 z-20 bg-foreground px-2 py-1 text-[10px] font-medium tracking-wide text-white uppercase">
             Best Selling
           </span>
         )}
@@ -133,5 +118,71 @@ export default function ProductCard({ product }: ProductCardProps) {
         ) : null}
       </Link>
     </article>
+  );
+}
+
+interface ProductActionsProps {
+  productName: string;
+  productHref?: string;
+  isWishlisted: boolean;
+  cartStatus: CartStatus;
+  isOutOfStock: boolean;
+  onToggleWishlist: () => void;
+  onAddToCart: () => void;
+}
+
+function ProductActions({
+  productName,
+  productHref,
+  isWishlisted,
+  cartStatus,
+  isOutOfStock,
+  onToggleWishlist,
+  onAddToCart,
+}: ProductActionsProps) {
+  return (
+    <>
+      {productHref ? (
+        <Link
+          href={productHref}
+          aria-label={`View ${productName}`}
+          className={actionButtonClass}
+        >
+          <FiEye className="h-4 w-4" />
+        </Link>
+      ) : null}
+
+      <button
+        type="button"
+        aria-label={
+          isWishlisted
+            ? `Remove ${productName} from wishlist`
+            : `Add ${productName} to wishlist`
+        }
+        aria-pressed={isWishlisted}
+        onClick={onToggleWishlist}
+        className={`${actionButtonClass} ${
+          isWishlisted ? "bg-dark-green hover:bg-dark-green" : ""
+        }`}
+      >
+        <IoIosHeart className="h-4 w-4" />
+      </button>
+
+      <button
+        type="button"
+        aria-label={`Add ${productName} to cart`}
+        disabled={cartStatus === "loading" || isOutOfStock}
+        onClick={onAddToCart}
+        className={`${actionButtonClass} ${
+          cartStatus === "added"
+            ? "bg-dark-green hover:bg-dark-green"
+            : cartStatus === "error"
+              ? "bg-rose-dark hover:bg-rose-dark"
+              : ""
+        } disabled:cursor-not-allowed disabled:opacity-60`}
+      >
+        <IoMdCart className="h-4 w-4" />
+      </button>
+    </>
   );
 }

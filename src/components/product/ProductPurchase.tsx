@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { addCartItem } from "@/actions/cart";
 import { getCartAuth } from "@/lib/auth";
+import ProductTrustBadges from "@/components/product/ProductTrustBadges";
 import { formatProductPrice } from "@/lib/catalog";
 import { notifyError, notifyFromResult } from "@/lib/notify";
 import { useCartStore } from "@/stores/cart";
@@ -62,22 +63,26 @@ export default function ProductPurchase({
 
   return (
     <div className="flex flex-col">
-      <h1 className="font-serif text-[32px] leading-[1.15] text-foreground md:text-[38px] lg:text-[42px]">
+      <h1 className="border-b border-gray-200 pb-4 font-serif text-[32px] leading-[1.15] text-foreground md:text-[38px] lg:text-[42px]">
         {name}
       </h1>
 
       {description ? (
-        <p className="mt-5 line-clamp-4 text-sm leading-7 text-text-muted">
-          {description}
-        </p>
+        <p className="mt-5 text-sm leading-7 text-text-muted">{description}</p>
       ) : null}
 
       <p className="mt-6 text-lg font-semibold text-foreground">
         {formatProductPrice(price)}
       </p>
 
+      {stock > 0 ? (
+        <p className="mt-2 text-sm italic text-text-muted">
+          Hurry up! {stock} {stock === 1 ? "item" : "items"} left in the cart
+        </p>
+      ) : null}
+
       <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <div className="flex h-[58px] items-center justify-between border border-black bg-white">
+        <div className="flex h-[58px] items-center justify-between border border-gray-300 bg-white">
           <button
             type="button"
             aria-label="Decrease quantity"
@@ -128,6 +133,8 @@ export default function ProductPurchase({
       >
         {isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
       </button>
+
+      <ProductTrustBadges />
     </div>
   );
 }

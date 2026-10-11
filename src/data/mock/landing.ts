@@ -2,11 +2,12 @@ import type { LandingData } from "@/types/landing";
 import { siteAssets } from "@/config/assets";
 
 export const landingMock: LandingData = {
-  announcement: "Exclusive Engagement Rings - Your Perfect Choice",
+  announcement: "Exclusive Jewellery - Your Perfect Choice",
   navLinks: [
     { label: "Home", href: "/" },
     { label: "Shop", href: "/products" },
     { label: "Collection", href: "/collection" },
+    { label: "Contact Us", href: "/contact" },
   ],
   hero: {
     badge: "WHERE FASHION MEETS ELEGANCE",
@@ -154,7 +155,7 @@ export const landingMock: LandingData = {
       { label: "Contact Us", href: "/contact" },
     ],
     companyLinks: [
-      { label: "About Celoria", href: "/about" },
+      { label: "About Celorias", href: "/about" },
       { label: "Quality Promise", href: "/quality-promise" },
     ],
     contact: {
@@ -165,8 +166,7 @@ export const landingMock: LandingData = {
     socials: [
       { platform: "instagram", href: "https://instagram.com" },
       { platform: "tiktok", href: "https://tiktok.com" },
-      { platform: "youtube", href: "https://youtube.com" },
-      { platform: "pinterest", href: "https://pinterest.com" },
+      { platform: "facebook", href: "https://facebook.com" },
     ],
     copyright: "Copyright © 2026 All Rights Reserved.",
     paymentLabel: "Payment Can Be Done Through",

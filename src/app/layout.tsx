@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Montserrat, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import AppToaster from "@/components/ui/AppToaster";
 import "./globals.css";
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
@@ -26,7 +26,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${montserrat.variable} ${playfair.variable} h-full antialiased`}
+      className={`${inter.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         {children}

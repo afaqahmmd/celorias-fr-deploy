@@ -52,6 +52,8 @@ export interface ApiProduct {
   isActive: boolean;
   soldCount: number;
   additionalInfo: unknown;
+  stoneType?: string | null;
+  color?: string | null;
   createdAt: string;
   updatedAt: string;
   category: ApiProductCategory;
@@ -59,8 +61,7 @@ export interface ApiProduct {
   averageRating?: number;
 }
 
-export interface ApiProductDetail
-  extends Omit<ApiProduct, "reviewCount"> {
+export interface ApiProductDetail extends Omit<ApiProduct, "reviewCount"> {
   reviews: ApiProductReviews;
 }
 
@@ -72,6 +73,7 @@ export interface ProductPreview {
   images: string[];
   rating: number;
   reviewCount?: number;
+  stock: number;
 }
 
 export interface ApiProductListResponse {
@@ -80,6 +82,18 @@ export interface ApiProductListResponse {
   pageSize: number;
   total: number;
   totalPages: number;
+}
+
+export interface ApiSearchSuggestion {
+  id: string;
+  name: string;
+  slug: string;
+  price: string;
+  thumbnail: string | null;
+}
+
+export interface ApiSearchSuggestionResponse {
+  items: ApiSearchSuggestion[];
 }
 
 export interface ApiCartItem {
