@@ -110,10 +110,12 @@ export default function RecentlyViewed({
                 </h3>
                 <p
                   className={`mt-1 text-sm ${
-                    product.stock === 0 ? "text-text-muted" : "text-[#2e7d32]"
+                    (product.stock ?? 1) === 0
+                      ? "text-text-muted"
+                      : "text-[#2e7d32]"
                   }`}
                 >
-                  {product.stock === 0 ? "Out of stock" : "In stock"}
+                  {(product.stock ?? 1) === 0 ? "Out of stock" : "In stock"}
                 </p>
                 <div className="mt-2">
                   <StarRating rating={starRating ?? 0} variant="onLight" />

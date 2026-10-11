@@ -25,6 +25,7 @@ export default function ProductDetailView({
     images: product.images,
     rating: product.reviews?.averageRating ?? 0,
     reviewCount: product.reviews?.count ?? 0,
+    stock: product.stock,
   };
 
   return (

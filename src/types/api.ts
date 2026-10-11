@@ -73,6 +73,7 @@ export interface ProductPreview {
   images: string[];
   rating: number;
   reviewCount?: number;
+  stock: number;
 }
 
 export interface ApiProductListResponse {
