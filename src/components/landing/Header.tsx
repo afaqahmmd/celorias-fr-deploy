@@ -15,8 +15,7 @@ interface HeaderProps {
   navLinks: NavLink[];
 }
 
-const desktopIconClass =
-  "text-foreground transition-colors hover:text-rose";
+const desktopIconClass = "text-foreground transition-colors hover:text-rose";
 
 export default function Header({ navLinks }: HeaderProps) {
   const pathname = usePathname();

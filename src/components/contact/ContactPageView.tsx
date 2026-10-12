@@ -6,7 +6,7 @@ import SectionBadge from "@/components/ui/SectionBadge";
 import { landingMock } from "@/data/mock/landing";
 
 const ABOUT_COPY =
-  "Celorias was founded on a simple belief — every piece of jewellery should feel personal, timeless, and made with honest craftsmanship. We design fine jewellery that honours tradition while staying contemporary — crafted with care, priced fairly, and made to be worn, loved, and passed on.";
+  "Celorias was founded on a simple belief: every piece of jewellery should feel personal, timeless, and made with honest craftsmanship. We design fine jewellery that honours tradition while staying contemporary, crafted with care, priced fairly, and made to be worn, loved, and passed on.";
 
 function SectionHeading({
   badge,

@@ -61,8 +61,7 @@ export interface ApiProduct {
   averageRating?: number;
 }
 
-export interface ApiProductDetail
-  extends Omit<ApiProduct, "reviewCount"> {
+export interface ApiProductDetail extends Omit<ApiProduct, "reviewCount"> {
   reviews: ApiProductReviews;
 }
 
@@ -74,6 +73,7 @@ export interface ProductPreview {
   images: string[];
   rating: number;
   reviewCount?: number;
+  stock: number;
 }
 
 export interface ApiProductListResponse {

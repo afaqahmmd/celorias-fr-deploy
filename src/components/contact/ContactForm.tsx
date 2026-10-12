@@ -61,7 +61,7 @@ export default function ContactForm() {
             className="!h-auto !w-full !max-w-full object-contain"
           />
         </div>
-        <h3 className="mt-4 text-sm font-semibold tracking-[0.14em] text-rose uppercase md:text-base">
+        <h3 className="mt-4 border-b border-black/10 pb-3 text-sm font-semibold tracking-[0.14em] text-rose uppercase md:text-base">
           The Celorias Standard
         </h3>
         <p className="mt-4 font-serif text-sm leading-relaxed text-foreground md:text-[13px] md:leading-7">

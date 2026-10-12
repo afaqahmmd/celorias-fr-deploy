@@ -80,6 +80,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         images: item.images,
         rating: item.averageRating ?? 0,
         reviewCount: item.reviewCount,
+        stock: item.stock,
       }));
   } catch (error) {
     console.error("Failed to fetch related products:", error);

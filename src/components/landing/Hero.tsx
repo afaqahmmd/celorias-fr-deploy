@@ -38,19 +38,19 @@ export default function Hero({ badge, title, subtitle, images }: HeroProps) {
       ))}
       <div className="absolute inset-0 z-1 bg-[#1c1410]/80" />
 
-      <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 text-center sm:py-24 md:py-28">
-        <div className="mb-7 inline-flex items-center gap-2 rounded-full bg-[#3d2a24]/80 px-5 py-2">
-          <span className="h-1.5 w-1.5 rounded-full bg-white" />
-          <span className="text-[11px] tracking-[0.18em] text-white uppercase">
+      <div className="relative z-10 mx-auto w-full min-w-0 max-w-4xl px-6 py-16 text-center sm:py-24 md:py-28">
+        <div className="mb-7 inline-flex max-w-full items-center gap-2 rounded-full bg-[#3d2a24]/80 px-3 py-2 sm:px-5">
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white" />
+          <span className="text-[10px] tracking-[0.12em] text-white uppercase sm:text-[11px] sm:tracking-[0.18em]">
             {badge}
           </span>
         </div>
 
-        <h1 className="font-serif text-[32px] font-normal leading-[1.2] whitespace-pre-line text-white sm:text-[40px] md:text-[52px] lg:text-[56px]">
+        <h1 className="font-serif text-[32px] font-normal leading-[1.2] break-words whitespace-pre-line text-white sm:text-[40px] md:text-[52px] lg:text-[56px]">
           {title}
         </h1>
 
-        <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-[1.7] font-normal text-white/80 md:text-base">
+        <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-[1.7] font-normal text-pretty text-white/80 md:text-base">
           {subtitle}
         </p>
       </div>
